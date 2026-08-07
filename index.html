@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0a10">
+<title>Prasant Kumar Thapa — Content Creator & Video Editor · Al Ain, UAE</title>
+<meta name="description" content="Portfolio of Prasant Kumar Thapa — content creator, video editor and AI-driven marketer from Al Ain, UAE. Co-founder of U-Design and founder of Aakriti.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230b0a10'/><text x='32' y='44' font-family='Arial' font-size='32' font-weight='bold' fill='%23ffd02e' text-anchor='middle'>P</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!--
+════════════════════════════════════════════════════════════════════
+  PRASANT — HOW TO ADD YOUR PHOTOS, VIDEOS & LINKS (simple version)
+════════════════════════════════════════════════════════════════════
+  1) PHOTOS  → Press Ctrl+F and search "PHOTO 01" (up to PHOTO 20).
+     Inside that box, DELETE the <div class="ph-empty">...</div>
+     and PASTE:   <img src="photos/my-photo.jpg" alt="">
+     (put your photo files in a folder called "photos" next to this file)
+     CAT PHOTOS → same steps: search "CAT PHOTO 01" (up to CAT PHOTO 09).
+     To add dates to the cat chapters, edit the "Chapter 01 — ..." lines.
+
+  2) VIDEOS  → Search "VIDEO 01" (up to VIDEO 04).
+     Delete the placeholder div and paste ONE of these:
+       <video src="videos/my-edit.mp4" controls playsinline></video>
+       — or a YouTube embed —
+       <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+
+  3) SHOWREEL → Search "SHOWREEL-SLOT". Same idea — this frame is
+     pinned, so the video follows the scroll and grows to full screen.
+     Perfect spot for your motion graphics later.
+
+  4) LINKS → Search "PASTE-LINK". Replace href="#" with your real
+     YouTube / Instagram / WhatsApp links.
+
+  5) HERO INTRO VIDEO (the clones scene) → Search "HERO-VIDEO-SLOT".
+
+  TO PUT ONLINE: upload this file (named index.html) to a GitHub
+  repository → Settings → Pages → done. Free hosting.
+════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+:root{
+  --ink:#0b0a10;
+  --ink2:#131119;
+  --panel:#171420;
+  --sand:#f4eee2;
+  --sand-dim:rgba(244,238,226,.55);
+  --sand-faint:rgba(244,238,226,.28);
+  --saffron:#ffd02e; /* print yellow (legacy var name) */
+  --terra:#e93d82;   /* print magenta (legacy var name) */
+  --cyan:#29c5f6;    /* print cyan */
+  --line:rgba(244,238,226,.13);
+  --font-d:'Syne','Arial Black',system-ui,sans-serif;
+  --font-b:'Space Grotesk',system-ui,sans-serif;
+  --font-m:'JetBrains Mono','Courier New',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{background:var(--ink);color:var(--sand)}
+body{font-family:var(--font-b);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+body.locked{overflow:hidden}
+::selection{background:var(--saffron);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+img,video,iframe{display:block;max-width:100%;border:0}
+h1,h2,h3{font-family:var(--font-d);font-weight:800;text-transform:uppercase;line-height:1.02;letter-spacing:-.01em}
+.mono{font-family:var(--font-m);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:#2a2735;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:var(--terra)}
+
+/* ---------- global chrome ---------- */
+.noise{position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
+  animation:grain 8s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-4%)}60%{transform:translate(-2%,-2%)}80%{transform:translate(4%,2%)}}
+#progress{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--terra),var(--saffron));transform:scaleX(0);transform-origin:0 50%;z-index:90}
+.cursor-d,.cursor-r{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:99;display:none}
+.cursor-d{width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--saffron)}
+.cursor-r{width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid var(--sand-faint);transition:width .25s,height .25s,margin .25s,border-color .25s}
+.cursor-r.big{width:66px;height:66px;margin:-33px 0 0 -33px;border-color:var(--saffron)}
+@media (hover:hover) and (pointer:fine){
+  body.has-cursor,body.has-cursor a,body.has-cursor button{cursor:none}
+  body.has-cursor .cursor-d,body.has-cursor .cursor-r{display:block}
+}
+
+/* ---------- preloader ---------- */
+#preloader{position:fixed;inset:0;background:var(--ink);z-index:200;display:flex;align-items:center;justify-content:center}
+#preloader .pre-top{position:absolute;top:24px;left:24px;color:var(--sand-dim)}
+#preloader .pre-route{position:absolute;top:24px;right:24px;color:var(--sand-dim)}
+.pre-name{font-family:var(--font-d);font-weight:800;font-size:clamp(2.6rem,9vw,7rem);text-transform:uppercase;letter-spacing:.02em}
+.pre-name em{font-style:normal;color:var(--saffron)}
+#pct{position:absolute;bottom:24px;right:24px;font-family:var(--font-m);font-size:clamp(2rem,6vw,4rem);color:var(--sand-dim)}
+#preloader .pre-hint{position:absolute;bottom:32px;left:24px;color:var(--sand-faint)}
+
+/* ---------- brand + edge nav ---------- */
+.brand{position:fixed;top:20px;left:22px;z-index:80;font-family:var(--font-d);font-weight:800;font-size:1.05rem;letter-spacing:.06em;mix-blend-mode:difference}
+.brand i{font-style:normal;color:var(--saffron)}
+.edge{position:fixed;top:0;right:0;height:100svh;z-index:85;display:flex;align-items:center}
+.edge-tab{position:absolute;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;background:var(--panel);border:1px solid var(--line);border-right:0;color:var(--sand);font-family:var(--font-m);font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;padding:1.2rem .55rem;border-radius:10px 0 0 10px;cursor:pointer;transition:background .25s,color .25s}
+.edge-tab:hover{background:var(--saffron);color:var(--ink)}
+.edge-panel{position:absolute;right:0;top:0;height:100%;width:min(320px,84vw);background:rgba(19,17,25,.97);backdrop-filter:blur(12px);border-left:1px solid var(--line);transform:translateX(105%);transition:transform .45s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;gap:.2rem;padding:2rem}
+.edge.open .edge-panel{transform:translateX(0)}
+.edge-panel .mono{color:var(--saffron);margin-bottom:1rem}
+.edge-panel a{font-family:var(--font-d);font-weight:700;text-transform:uppercase;font-size:1.35rem;padding:.45rem 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;transition:color .2s,padding-left .25s}
+.edge-panel a span{font-family:var(--font-m);font-size:.62rem;color:var(--sand-faint);letter-spacing:.12em}
+.edge-panel a:hover{color:var(--saffron);padding-left:.5rem}
+.edge-close{position:absolute;top:18px;right:20px;background:none;border:1px solid var(--line);color:var(--sand);width:38px;height:38px;border-radius:50%;font-size:1rem;cursor:pointer}
+.edge-close:hover{border-color:var(--saffron);color:var(--saffron)}
+
+/* ---------- shared section bits ---------- */
+section{position:relative;padding:16vh 6vw}
+.chap{font-family:var(--font-m);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--saffron);display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem}
+.chap::after{content:"";height:1px;width:64px;background:var(--saffron);opacity:.5}
+.sec-title{font-size:clamp(2.2rem,6vw,4.4rem);margin-bottom:1rem}
+.sec-title .ol{color:transparent;-webkit-text-stroke:1.5px var(--sand-dim)}
+.sec-sub{color:var(--sand-dim);max-width:56ch;font-size:1.02rem}
+.chip{display:inline-block;font-family:var(--font-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:.32rem .7rem;color:var(--sand-dim)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.1rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-m);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--sand-faint);border-radius:999px;padding:.95rem 1.7rem;transition:background .25s,color .25s,border-color .25s}
+.btn:hover{background:var(--saffron);border-color:var(--saffron);color:var(--ink)}
+.btn.solid{background:var(--saffron);border-color:var(--saffron);color:var(--ink)}
+.btn.solid:hover{background:var(--terra);border-color:var(--terra);color:var(--sand)}
+
+/* placeholder frames (photos/videos) */
+.ph-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:var(--ink2);background-image:repeating-linear-gradient(45deg,transparent 0 14px,rgba(244,238,226,.028) 14px 15px)}
+.ph-empty::before{content:"+";font-family:var(--font-b);font-weight:300;font-size:2.4rem;line-height:1;color:var(--sand-faint)}
+.ph-empty.play::before{content:"";width:0;height:0;border-left:22px solid var(--sand-faint);border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+.ph-num{font-family:var(--font-m);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-faint)}
+
+/* ---------- hero ---------- */
+#hero{height:100svh;padding:0;overflow:hidden;display:flex}
+.hero-stage{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background-image:radial-gradient(rgba(244,238,226,.05) 1px,transparent 1.6px);background-size:24px 24px}
+.hero-meta .hm{position:absolute;font-family:var(--font-m);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sand-dim)}
+.hm.tl{top:22px;left:22px}
+.hm.tr{top:22px;right:22px;text-align:right}
+.hm.bl{bottom:26px;left:22px}
+.hm.br{bottom:26px;right:22px;text-align:right}
+.hm .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--saffron);margin-right:.45rem;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.hero-name{text-align:center;z-index:2}
+.name-line{overflow:hidden;display:block}
+.name-line>span{display:block;font-family:var(--font-d);font-weight:800;text-transform:uppercase;font-size:clamp(3.2rem,14.5vw,12.5rem);line-height:.92;letter-spacing:-.015em}
+.name-line.mid>span{color:transparent;-webkit-text-stroke:2px var(--cyan)}
+.name-line .period{color:var(--saffron);-webkit-text-stroke:0}
+.hero-role{margin-top:1.6rem;font-family:var(--font-m);font-size:clamp(.68rem,1.6vw,.85rem);letter-spacing:.3em;text-transform:uppercase;color:var(--sand-dim)}
+.hero-role b{color:var(--saffron);font-weight:500}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-family:var(--font-m);font-size:.62rem;letter-spacing:.3em;color:var(--sand-faint)}
+.scroll-hint i{width:1px;height:44px;background:var(--sand-faint);display:block;overflow:hidden;position:relative}
+.scroll-hint i::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--saffron);animation:drop 1.6s ease-in-out infinite}
+@keyframes drop{to{top:110%}}
+/* HERO-VIDEO-SLOT (style) : the clones-intro video you add later uses this class:
+   <video class="hero-bg" src="videos/intro.mp4" autoplay muted loop playsinline></video> */
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;z-index:0}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:240px 1fr;gap:4rem}
+.about-stick{position:sticky;top:16vh;align-self:start}
+.about-stick .vline{width:1px;height:120px;background:linear-gradient(var(--saffron),transparent);margin-top:1.4rem}
+.about-copy p[data-words]{font-family:var(--font-b);font-weight:400;font-size:clamp(1.35rem,2.6vw,2.1rem);line-height:1.45;max-width:26ch;margin-bottom:2rem;max-width:34ch}
+.about-copy .w{display:inline-block}
+.about-sub{color:var(--sand-dim);max-width:52ch;font-size:1.05rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:4rem}
+.stat{background:var(--ink);padding:1.6rem 1.4rem}
+.stat b{display:block;font-family:var(--font-d);font-weight:800;font-size:clamp(2rem,4.5vw,3.4rem);color:var(--saffron);line-height:1}
+.stat b small{font-size:.5em;vertical-align:top}
+.stat span{font-family:var(--font-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-dim)}
+
+/* ---------- showreel ---------- */
+#reel{height:230vh;padding:0}
+.reel-sticky{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.reel-word{position:absolute;font-family:var(--font-d);font-weight:800;text-transform:uppercase;font-size:clamp(5rem,22vw,19rem);color:transparent;-webkit-text-stroke:1.5px rgba(244,238,226,.16);white-space:nowrap;user-select:none}
+.reel-frame{position:relative;width:min(88vw,1150px);aspect-ratio:16/9;border:1px solid var(--line);overflow:hidden;background:var(--ink2);z-index:2;transform-origin:center;box-shadow:0 40px 120px rgba(0,0,0,.55)}
+.reel-frame video,.reel-frame iframe{width:100%;height:100%;object-fit:cover}
+.reel-cap{position:absolute;bottom:18px;left:20px;right:20px;display:flex;justify-content:space-between;font-family:var(--font-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-faint);z-index:3;pointer-events:none}
+
+/* ---------- marquee ---------- */
+.marq{overflow:hidden;border-block:1px solid var(--line);padding:1.1rem 0;white-space:nowrap}
+.marq-inner{display:inline-block;animation:mscroll 24s linear infinite;will-change:transform}
+.marq--rev .marq-inner{animation-direction:reverse}
+.marq-inner span{font-family:var(--font-d);font-weight:700;font-size:clamp(1rem,2.3vw,1.5rem);letter-spacing:.05em;text-transform:uppercase;margin:0 1.3rem}
+.marq-inner span.alt{color:transparent;-webkit-text-stroke:1px var(--sand-dim)}
+.marq-inner span.sf{color:var(--saffron)}
+@keyframes mscroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.marq-inner{animation:none}.noise{animation:none}.scroll-hint i::after{animation:none}}
+
+/* ---------- education ---------- */
+.edu-list{position:relative;margin-top:3.5rem;padding-left:52px;max-width:820px}
+.edu-rail{position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.edu-rail i{display:block;width:100%;height:100%;background:linear-gradient(var(--saffron),var(--terra));transform:scaleY(0);transform-origin:top}
+.edu-item{position:relative;padding:1.6rem 0;border-bottom:1px solid var(--line)}
+.edu-item::before{content:"";position:absolute;left:-48px;top:2.35rem;width:12px;height:12px;border-radius:50%;background:var(--ink);border:2px solid var(--saffron)}
+.edu-year{font-family:var(--font-d);font-weight:800;font-size:clamp(1.6rem,4vw,2.6rem);color:transparent;-webkit-text-stroke:1.2px var(--sand-dim);line-height:1;margin-bottom:.5rem}
+.edu-body h3{font-size:clamp(1.05rem,2.2vw,1.5rem);margin-bottom:.25rem}
+.edu-meta{font-family:var(--font-m);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--saffron);margin-bottom:.55rem}
+.edu-body p{color:var(--sand-dim);max-width:58ch;font-size:.98rem}
+
+/* ---------- experience (horizontal flight) ---------- */
+#work{padding:0;overflow:hidden}
+.xp-head{position:absolute;top:7vh;left:6vw;z-index:3}
+.xp-track{display:flex;align-items:center;gap:2rem;height:100svh;padding:0 6vw;padding-top:10vh;will-change:transform}
+.xp-card{position:relative;flex:0 0 auto;width:min(560px,64vw);background:var(--panel);border:1px solid var(--line);padding:2.4rem 2.2rem;overflow:hidden;transition:border-color .3s}
+.xp-card:hover{border-color:var(--saffron)}
+.xp-idx{position:absolute;top:-.8rem;right:.6rem;font-family:var(--font-d);font-weight:800;font-size:6.5rem;color:rgba(244,238,226,.05);line-height:1;user-select:none}
+.xp-route{font-family:var(--font-m);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--saffron);margin-bottom:1rem}
+.xp-co{font-size:clamp(1.4rem,2.6vw,2rem);margin-bottom:.2rem}
+.xp-role{font-family:var(--font-m);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-dim);margin-bottom:1.2rem}
+.xp-card ul{list-style:none;display:grid;gap:.5rem}
+.xp-card li{color:var(--sand-dim);font-size:.95rem;padding-left:1.1rem;position:relative}
+.xp-card li::before{content:"→";position:absolute;left:0;color:var(--terra)}
+.xp-card.cta{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1.4rem;background:linear-gradient(135deg,var(--terra),var(--saffron));border:0;color:var(--ink)}
+.xp-card.cta h3{font-size:clamp(1.6rem,3vw,2.4rem)}
+.xp-card.cta .btn{border-color:var(--ink);color:var(--ink)}
+.xp-card.cta .btn:hover{background:var(--ink);color:var(--sand)}
+
+/* ---------- story / maker ---------- */
+.maker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.5rem}
+.mk-card{background:var(--panel);border:1px solid var(--line);padding:2rem 1.8rem;transition:transform .35s,border-color .35s}
+.mk-card:hover{transform:translateY(-6px);border-color:var(--saffron)}
+.mk-card .mono{color:var(--saffron);display:block;margin-bottom:1rem}
+.mk-card h3{font-size:1.25rem;margin-bottom:.7rem}
+.mk-card p{color:var(--sand-dim);font-size:.95rem}
+.simwrap{margin-top:5rem;overflow-x:auto;padding-bottom:1rem}
+.simwrap svg{width:100%;min-width:720px;height:auto;display:block}
+.ghostpath{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:6 8}
+#simPath{fill:none;stroke:var(--cyan);stroke-width:2.5}
+.simdot{fill:var(--ink);stroke:var(--sand-dim);stroke-width:2}
+.simlabel{fill:var(--sand);font-family:var(--font-m);font-size:15px;letter-spacing:.08em;text-transform:uppercase}
+.simsub{fill:rgba(244,238,226,.45);font-family:var(--font-m);font-size:11.5px;letter-spacing:.06em}
+#plane path{fill:var(--saffron)}
+
+/* ---------- youtube ---------- */
+.yt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:3.5rem}
+.yt-card{border:1px solid var(--line);background:var(--panel);transition:border-color .3s}
+.yt-card:hover{border-color:var(--saffron)}
+.yt-thumb{position:relative;aspect-ratio:16/9;overflow:hidden}
+.yt-thumb img,.yt-thumb iframe{width:100%;height:100%;object-fit:cover}
+.yt-body{padding:1.6rem 1.7rem 1.9rem}
+.yt-body h3{font-size:1.35rem;margin-bottom:.4rem}
+.yt-body h3 i{font-style:normal;color:var(--saffron)}
+.yt-body p{color:var(--sand-dim);font-size:.95rem;margin-bottom:1.3rem}
+.yt-next{margin-top:1.6rem;font-family:var(--font-m);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-faint)}
+.yt-next b{color:var(--saffron);font-weight:500}
+
+/* ---------- now / ventures ---------- */
+.now-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:3.5rem}
+.now-card{position:relative;background:var(--panel);border:1px solid var(--line);padding:2.2rem 2rem;transition:transform .35s,border-color .35s}
+.now-card:hover{transform:translateY(-6px);border-color:var(--saffron)}
+.status{position:absolute;top:1.4rem;right:1.4rem;font-family:var(--font-m);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;border-radius:999px;padding:.3rem .75rem}
+.status.live{background:var(--saffron);color:var(--ink)}
+.status.build{border:1px solid var(--cyan);color:var(--cyan)}
+.status.launch{border:1px solid var(--terra);color:var(--terra)}
+.status.daily{border:1px solid var(--sand-faint);color:var(--sand-dim)}
+.now-card h3{font-size:1.5rem;margin-bottom:.15rem;padding-right:5.5rem}
+.now-tag{font-family:var(--font-m);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--saffron);display:block;margin-bottom:1rem}
+.now-card p{color:var(--sand-dim);font-size:.96rem}
+
+/* ---------- photo gallery ---------- */
+.g-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;grid-auto-flow:dense;gap:1rem;margin-top:3.5rem}
+.ph{position:relative;overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
+.ph:hover{border-color:var(--saffron)}
+.ph.tall{grid-row:span 2}
+.ph.wide{grid-column:span 2}
+.ph-media{position:absolute;inset:0}
+.ph-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.ph:hover .ph-media img{transform:scale(1.06)}
+
+/* ---------- video gallery ---------- */
+.v-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:3.5rem}
+.vph{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
+.vph:hover{border-color:var(--saffron)}
+.vph.wide{grid-column:span 2}
+.vph video,.vph iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ---------- family & cats ---------- */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.5rem}
+.cat-card{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .35s,border-color .35s}
+.cat-card:hover{transform:translateY(-6px);border-color:var(--terra)}
+.cat-photo{position:relative;aspect-ratio:4/3;border-bottom:1px solid var(--line);overflow:hidden}
+.cat-photo img{width:100%;height:100%;object-fit:cover}
+.cat-body{padding:1.4rem 1.4rem 1.6rem}
+.cat-body .mono{color:var(--terra);display:block;margin-bottom:.55rem}
+.cat-body h3{font-size:1.12rem;margin-bottom:.5rem}
+.cat-body p{color:var(--sand-dim);font-size:.9rem}
+.cat-callout{margin-top:3.5rem;border:1px solid var(--line);background:var(--panel);padding:3rem 2.5rem}
+.cat-callout h3{font-size:clamp(1.6rem,4vw,3rem);max-width:22ch;margin-bottom:1rem}
+.cat-callout h3 em{font-style:normal;color:var(--terra)}
+.cat-callout p{color:var(--sand-dim);max-width:70ch}
+.family-grid{display:grid;grid-template-columns:1fr;gap:1.4rem;margin-top:3.5rem}
+.gwall .mono{display:block;color:var(--sand-faint);margin:1.2rem 0 .1rem}
+.quoteline{margin-top:1.6rem;padding-left:1.2rem;border-left:2px solid var(--terra);color:var(--sand);font-size:1rem;font-style:italic}
+
+/* ---------- footer ---------- */
+footer{position:relative;padding:14vh 6vw 3rem;border-top:1px solid var(--line)}
+.foot-cta h2{font-size:clamp(2.6rem,8.5vw,7.2rem);max-width:14ch}
+.foot-cta h2 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--saffron)}
+.btn-row{display:flex;flex-wrap:wrap;gap:1rem;margin:3rem 0 4.5rem}
+.socials{display:flex;flex-wrap:wrap;gap:2rem;font-family:var(--font-m);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-dim);margin-bottom:3.5rem}
+.socials a{position:relative}
+.socials a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--saffron);transition:width .3s}
+.socials a:hover{color:var(--saffron)}
+.socials a:hover::after{width:100%}
+.foot-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);padding-top:1.6rem;font-family:var(--font-m);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-faint)}
+#clock{color:var(--saffron)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1060px){
+  .maker-grid{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .g-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:860px){
+  section{padding:12vh 6vw}
+  .about-grid{grid-template-columns:1fr;gap:2rem}
+  .about-stick{position:static}
+  .about-stick .vline{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  #work{padding:12vh 6vw}
+  .xp-head{position:static;margin-bottom:2.5rem}
+  .xp-track{flex-direction:column;align-items:stretch;height:auto;padding:0;gap:1.4rem}
+  .xp-card{width:100%}
+  .yt-grid,.now-grid,.cat-grid{grid-template-columns:1fr}
+  .g-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .v-grid{grid-template-columns:1fr}
+  .vph.wide{grid-column:span 1}
+  #reel{height:190vh}
+}
+</style>
+</head>
+<body id="top">
+
+<div class="noise"></div>
+<div class="cursor-d"></div><div class="cursor-r"></div>
+<div id="progress"></div>
+
+<!-- preloader -->
+<div id="preloader">
+  <div class="pre-top mono">PKT — PORTFOLIO '26</div>
+  <div class="pre-route mono">SHL ✈ AUH · AL AIN</div>
+  <div class="pre-name">PRASANT<em>.</em></div>
+  <div class="pre-hint mono">BOARDING…</div>
+  <div id="pct">000</div>
+</div>
+
+<a class="brand" href="#top">PKT<i>.</i></a>
+
+<!-- collapsible edge navigation -->
+<nav class="edge" id="edge">
+  <button class="edge-tab" id="edgeOpen" aria-label="Open menu">MENU</button>
+  <div class="edge-panel">
+    <button class="edge-close" id="edgeClose" aria-label="Close menu">✕</button>
+    <div class="mono">FLIGHT PLAN</div>
+    <a href="#about">About<span>01</span></a>
+    <a href="#reel">Showreel<span>02</span></a>
+    <a href="#education">Education<span>03</span></a>
+    <a href="#work">Experience<span>04</span></a>
+    <a href="#story">Origin Story<span>05</span></a>
+    <a href="#youtube">On Air<span>06</span></a>
+    <a href="#now">Building Now<span>07</span></a>
+    <a href="#family">My People<span>08</span></a>
+    <a href="#photos">Photos<span>09</span></a>
+    <a href="#videos">Videos<span>10</span></a>
+    <a href="#contact">Contact<span>11</span></a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════ 00 · HERO ══════════ -->
+<section id="hero">
+  <div class="hero-stage">
+    <!-- HERO-VIDEO-SLOT — paste your clones-intro video here later (see guide at top of file) -->
+    <div class="hero-meta">
+      <div class="hm tl">PRASANT KUMAR THAPA<br>PORTFOLIO — 2026</div>
+      <div class="hm tr">AL AIN, UAE<br>24.19°N · 55.76°E</div>
+      <div class="hm bl">CONTENT · MOTION · AI<br>EST. SHILLONG, 1996</div>
+      <div class="hm br"><span class="dot"></span>AVAILABLE FOR PROJECTS</div>
+    </div>
+    <h1 class="hero-name">
+      <span class="name-line"><span>PRASANT</span></span>
+      <span class="name-line mid"><span>KUMAR</span></span>
+      <span class="name-line"><span>THAPA<span class="period">.</span></span></span>
+      <div class="hero-role">CONTENT CREATOR — VIDEO EDITOR — <b>AI-DRIVEN</b></div>
+    </h1>
+    <div class="scroll-hint">SCROLL<i></i></div>
+  </div>
+</section>
+
+<!-- ══════════ 01 · ABOUT ══════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-stick">
+      <div class="chap">01 — ABOUT</div>
+      <div class="mono" style="color:var(--sand-faint)">THE SHORT VERSION</div>
+      <div class="vline"></div>
+    </div>
+    <div class="about-copy">
+      <p data-words>I'm Prasant — raised in Shillong, built in the UAE. My road ran through airport gates with Bangkok Airways, call floors in Dubai and nine-plus years of face-to-face sales, and every stop taught me the same thing: people don't buy products, they buy stories. Today I tell those stories with video, motion graphics and design — directing AI tools like a small production crew to turn any brief into finished, on-brand work.</p>
+      <p class="about-sub">Off the clock you'll find me heat-pressing shirts at U-Design, building QR tech for Al Ain's shops, teaching UAE businesses AI through Aakriti — or on final approach in a virtual A320. Fluent in English, Hindi, Nepali and Urdu. Powered by curiosity and cutting-edge AI.</p>
+      <div class="quoteline rv" style="border-color:var(--saffron);margin-top:2.2rem;font-size:1.15rem">"Experience can't be created. It can only be lived." — PKT</div>
+      <div class="stats">
+        <div class="stat"><b><span data-count="9">0</span><small>+</small></b><span>Years on the floor</span></div>
+        <div class="stat"><b><span data-count="4">0</span></b><span>Languages fluent</span></div>
+        <div class="stat"><b><span data-count="2">0</span></b><span>Brands co-founded</span></div>
+        <div class="stat"><b><span data-count="13">0</span></b><span>Years of virtual flight</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · SHOWREEL (pinned — the video follows your scroll) ══════════ -->
+<section id="reel">
+  <div class="reel-sticky">
+    <div class="reel-word">SHOWREEL</div>
+    <div class="reel-frame">
+      <!-- SHOWREEL-SLOT : delete the div below and paste your video / motion-graphics reel here -->
+      <div class="ph-empty play"><span class="ph-num">SHOWREEL — DROP HERO VIDEO HERE</span></div>
+      <div class="reel-cap"><span>PKT © 2026</span><span>MOTION COMING SOON</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marq"><div class="marq-inner">
+  <span>Edit</span><span class="alt">Design</span><span class="sf">✦</span><span>Print</span><span class="alt">Fly</span><span class="sf">✦</span><span>Repeat</span><span class="alt">Al Ain to the world</span><span class="sf">✦</span>
+  <span>Edit</span><span class="alt">Design</span><span class="sf">✦</span><span>Print</span><span class="alt">Fly</span><span class="sf">✦</span><span>Repeat</span><span class="alt">Al Ain to the world</span><span class="sf">✦</span>
+</div></div>
+
+<!-- ══════════ 03 · EDUCATION ══════════ -->
+<section id="education">
+  <div class="chap">03 — EDUCATION</div>
+  <h2 class="sec-title">Ground <span class="ol">School</span></h2>
+  <p class="sec-sub">Shillong classrooms to Mumbai runways — line by line, in order of departure.</p>
+  <div class="edu-list">
+    <div class="edu-rail"><i></i></div>
+    <div class="edu-item rv">
+      <div class="edu-year">2012</div>
+      <div class="edu-body">
+        <h3>S.S.L.C — Secondary School</h3>
+        <div class="edu-meta">St. Anthony's Hr. Sec. School · Shillong, Meghalaya</div>
+        <p>The foundation years — where the curiosity engine first started up.</p>
+      </div>
+    </div>
+    <div class="edu-item rv">
+      <div class="edu-year">2012</div>
+      <div class="edu-body">
+        <h3>Desktop Publishing — Computer Course</h3>
+        <div class="edu-meta">Vinit Computers · Shillong</div>
+        <p>First real design software. The moment pixels became a playground — the seed of everything visual that came after.</p>
+      </div>
+    </div>
+    <div class="edu-item rv">
+      <div class="edu-year">2015</div>
+      <div class="edu-body">
+        <h3>H.S.S.L.C — Higher Secondary</h3>
+        <div class="edu-meta">St. Peter's College · Shillong</div>
+        <p>Finished higher secondary with one eye permanently on the sky.</p>
+      </div>
+    </div>
+    <div class="edu-item rv">
+      <div class="edu-year">2016</div>
+      <div class="edu-body">
+        <h3>Diploma in Airport Management</h3>
+        <div class="edu-meta">Maharashtra Aviation Academy · Mumbai</div>
+        <p>The flight-sim kid goes professional — aviation, operations, and a ticket to the world.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · EXPERIENCE (horizontal flight through the career) ══════════ -->
+<section id="work">
+  <div class="xp-head">
+    <div class="chap">04 — EXPERIENCE</div>
+    <h2 class="sec-title">The <span class="ol">Route</span> So Far</h2>
+    <p class="sec-sub mono" style="letter-spacing:.18em">KEEP SCROLLING — THIS SECTION FLIES SIDEWAYS →</p>
+  </div>
+  <div class="xp-track">
+    <article class="xp-card">
+      <div class="xp-idx">01</div>
+      <div class="xp-route">DEP APR 2015 — ARR OCT 2016 · INDIA</div>
+      <h3 class="xp-co">Reliance Digital</h3>
+      <div class="xp-role">Sales Executive</div>
+      <ul>
+        <li>Sold consumer electronics and matched customers to the right product for usage and budget.</li>
+        <li>Handled complaints end-to-end and turned inquiries into sales.</li>
+        <li>Supported the IT team while learning everything in reach.</li>
+      </ul>
+      <div class="chips"><span class="chip">Retail</span><span class="chip">Electronics</span><span class="chip">First job</span></div>
+    </article>
+    <article class="xp-card">
+      <div class="xp-idx">02</div>
+      <div class="xp-route">DEP JAN 2017 — ARR FEB 2018 · BANGKOK AIRWAYS</div>
+      <h3 class="xp-co">Celebi NAS</h3>
+      <div class="xp-role">Passenger Service Agent</div>
+      <ul>
+        <li>Ran check-in and boarding for one of the world's best airlines — a dream-come-true posting.</li>
+        <li>Solved live problem cases: lost baggage (AHL), damaged bags, AOG situations.</li>
+        <li>Held the highest safety and security standards, flight after flight.</li>
+      </ul>
+      <div class="chips"><span class="chip">Aviation</span><span class="chip">Ground ops</span><span class="chip">VIP handling</span></div>
+    </article>
+    <article class="xp-card">
+      <div class="xp-idx">03</div>
+      <div class="xp-route">DEP MAY 2018 — ARR DEC 2019 · DUBAI, UAE</div>
+      <h3 class="xp-co">Resolute Group</h3>
+      <div class="xp-role">Call Centre Executive → Supervisor</div>
+      <ul>
+        <li>Promoted to Supervisor within six months of joining.</li>
+        <li>Organised workflow, coached the team, resolved escalations and reported performance.</li>
+        <li>Served brands like Jollibee Oman, Chowking and Asia Kitchen by Mainland China.</li>
+      </ul>
+      <div class="chips"><span class="chip">Leadership</span><span class="chip">Coaching</span><span class="chip">Promotion</span></div>
+    </article>
+    <article class="xp-card">
+      <div class="xp-idx">04</div>
+      <div class="xp-route">DEP FEB 2020 — ARR AUG 2021 · DUBAI, UAE</div>
+      <h3 class="xp-co">Jumbo — Du Telecom</h3>
+      <div class="xp-role">Telesales Executive</div>
+      <ul>
+        <li>Built customer relationships entirely by phone and exceeded sales targets on digital products.</li>
+        <li>Gathered market insight and fed accurate trend forecasts back to the sales team.</li>
+        <li>Bridged the company and its market — current and future.</li>
+      </ul>
+      <div class="chips"><span class="chip">Telesales</span><span class="chip">Targets beaten</span></div>
+    </article>
+    <article class="xp-card">
+      <div class="xp-idx">05</div>
+      <div class="xp-route">DEP OCT 2021 — NOW BOARDING · AL AIN, UAE</div>
+      <h3 class="xp-co">Etisalat (e&)</h3>
+      <div class="xp-role">Retail Sales — Current</div>
+      <ul>
+        <li>Consultative, face-to-face sales — turning technical features into simple, persuasive stories.</li>
+        <li>Uses Claude and ChatGPT daily to research, draft and solve problems faster.</li>
+        <li>Consistently meets monthly targets while building brands after hours.</li>
+      </ul>
+      <div class="chips"><span class="chip sf" style="border-color:var(--saffron);color:var(--saffron)">NOW</span><span class="chip">Sales + AI</span></div>
+    </article>
+    <article class="xp-card cta">
+      <div class="mono">06 — NEXT DESTINATION</div>
+      <h3>Your team?</h3>
+      <a class="btn" href="#contact">Let's talk →</a>
+    </article>
+  </div>
+</section>
+
+<!-- toolkit marquees -->
+<section id="tools" style="padding:10vh 0">
+  <div style="padding:0 6vw"><div class="chap">TOOLKIT</div></div>
+  <div class="marq"><div class="marq-inner">
+    <span>Premiere Pro</span><span class="sf">✦</span><span class="alt">After Effects</span><span class="sf">✦</span><span>Canva</span><span class="sf">✦</span><span class="alt">Motion Graphics</span><span class="sf">✦</span><span>DTF Printing</span><span class="sf">✦</span><span class="alt">Sublimation</span><span class="sf">✦</span><span>Photography</span><span class="sf">✦</span><span class="alt">Colour &amp; Type</span><span class="sf">✦</span>
+    <span>Premiere Pro</span><span class="sf">✦</span><span class="alt">After Effects</span><span class="sf">✦</span><span>Canva</span><span class="sf">✦</span><span class="alt">Motion Graphics</span><span class="sf">✦</span><span>DTF Printing</span><span class="sf">✦</span><span class="alt">Sublimation</span><span class="sf">✦</span><span>Photography</span><span class="sf">✦</span><span class="alt">Colour &amp; Type</span><span class="sf">✦</span>
+  </div></div>
+  <div class="marq marq--rev" style="border-top:0"><div class="marq-inner">
+    <span>Claude</span><span class="sf">✦</span><span class="alt">ChatGPT</span><span class="sf">✦</span><span>Gemini</span><span class="sf">✦</span><span class="alt">ElevenLabs</span><span class="sf">✦</span><span>Kling</span><span class="sf">✦</span><span class="alt">Prompt Engineering</span><span class="sf">✦</span><span>Arduino</span><span class="sf">✦</span><span class="alt">AI Workflows</span><span class="sf">✦</span>
+    <span>Claude</span><span class="sf">✦</span><span class="alt">ChatGPT</span><span class="sf">✦</span><span>Gemini</span><span class="sf">✦</span><span class="alt">ElevenLabs</span><span class="sf">✦</span><span>Kling</span><span class="sf">✦</span><span class="alt">Prompt Engineering</span><span class="sf">✦</span><span>Arduino</span><span class="sf">✦</span><span class="alt">AI Workflows</span><span class="sf">✦</span>
+  </div></div>
+</section>
+
+<!-- ══════════ 05 · ORIGIN STORY ══════════ -->
+<section id="story">
+  <div class="chap">05 — ORIGIN STORY</div>
+  <h2 class="sec-title">Built Different <span class="ol">Since Day One</span></h2>
+  <p class="sec-sub">Before the software, there was jugaad. I've been building things since before I knew what to call it.</p>
+  <div class="maker-grid">
+    <div class="mk-card rv">
+      <span class="mono">CIRCA 2014 — AGE 18</span>
+      <h3>The Homemade Throttle</h3>
+      <p>No joystick? No problem. An old mobile-phone box, two syringes, a potentiometer and an Arduino board became a fully working flight-sim throttle. First lesson in life: if it doesn't exist — build it.</p>
+      <div class="chips"><span class="chip">Arduino</span><span class="chip">Hardware</span><span class="chip">Jugaad</span></div>
+    </div>
+    <div class="mk-card rv">
+      <span class="mono">THE TEEN YEARS</span>
+      <h3>First Lines of Code</h3>
+      <p>Learned Python and C++ the only way that ever sticks — by building games. A classic Snake, then a scratch-built shooter called Sky War. Code was never the goal; making things was.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">Game dev</span></div>
+    </div>
+    <div class="mk-card rv">
+      <span class="mono">2013 — PRESENT</span>
+      <h3>13 Years in Virtual Skies</h3>
+      <p>Hunting down X-Plane 10 in 2013 started an obsession that never landed. Thousands of virtual miles later, the sim rig is still the happiest seat in the house. Follow the flight path below.</p>
+      <div class="chips"><span class="chip">Flight sim</span><span class="chip">Aviation</span></div>
+    </div>
+  </div>
+  <div class="simwrap" id="simwrap">
+    <svg id="simSvg" viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg" aria-label="Flight simulator journey 2013 to 2024">
+      <path class="ghostpath" d="M 30 185 C 200 60 330 225 520 130 C 690 45 820 205 970 105"></path>
+      <path id="simPath" d="M 30 185 C 200 60 330 225 520 130 C 690 45 820 205 970 105"></path>
+      <g id="plane"><path d="M0 -9 L22 0 L0 9 L5 0 Z"></path></g>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════ 06 · ON AIR ══════════ -->
+<section id="youtube">
+  <div class="chap">06 — ON AIR</div>
+  <h2 class="sec-title">The <span class="ol">Channels</span></h2>
+  <p class="sec-sub">Creating on YouTube long before it was the plan — and it's only getting louder.</p>
+  <div class="yt-grid">
+    <article class="yt-card rv">
+      <div class="yt-thumb">
+        <!-- Paste channel art / latest-video thumbnail here -->
+        <div class="ph-empty play"><span class="ph-num">TZ GAMING — CHANNEL ART HERE</span></div>
+      </div>
+      <div class="yt-body">
+        <h3>TZ Gaming<i>.</i></h3>
+        <p>The gaming channel — flight sim, gameplay uploads and everything in between. Where the editing habit was born.</p>
+        <!-- PASTE-LINK : replace # with the TZ Gaming channel URL -->
+        <a class="btn" href="#" target="_blank" rel="noopener">Visit channel →</a>
+      </div>
+    </article>
+    <article class="yt-card rv">
+      <div class="yt-thumb">
+        <!-- Paste channel art / latest-video thumbnail here -->
+        <div class="ph-empty play"><span class="ph-num">BAKCHOD REACTS — CHANNEL ART HERE</span></div>
+      </div>
+      <div class="yt-body">
+        <h3>Bakchod Reacts<i>.</i></h3>
+        <p>Reaction videos with my colleague — unfiltered, unscripted, exactly as chaotic as it sounds.</p>
+        <!-- PASTE-LINK : replace # with the Bakchod Reacts channel URL -->
+        <a class="btn" href="#" target="_blank" rel="noopener">Visit channel →</a>
+      </div>
+    </article>
+  </div>
+  <div class="yt-next rv">NOW BOARDING — <b>U-DESIGN</b> &amp; <b>AAKRITI</b> CHANNELS · LAUNCHING 2026</div>
+</section>
+
+<!-- ══════════ 07 · BUILDING NOW ══════════ -->
+<section id="now">
+  <div class="chap">07 — BUILDING NOW</div>
+  <h2 class="sec-title">Current <span class="ol">Missions</span></h2>
+  <p class="sec-sub">Everything I've learned — sales, design, AI, story — merging into brands of my own.</p>
+  <div class="now-grid">
+    <article class="now-card rv">
+      <span class="status live">Live</span>
+      <h3>U-Design</h3>
+      <span class="now-tag">U Design. We Print.</span>
+      <p>Custom tees, mugs, keychains and merch from Al Ain — DTF + sublimation, same-day delivery, zero boring designs. Co-founded with Umair: two friends, one heat press.</p>
+      <div class="chips"><span class="chip">Printing</span><span class="chip">E-commerce</span>
+        <!-- PASTE-LINK : U-Design Instagram/site -->
+        <a class="chip" href="#" target="_blank" rel="noopener" style="color:var(--saffron);border-color:var(--saffron)">Visit →</a></div>
+    </article>
+    <article class="now-card rv">
+      <span class="status build">Building</span>
+      <h3>QR Connect</h3>
+      <span class="now-tag">Every shop, one scan</span>
+      <p>QR keychains that give every local shop a scannable mini-site — WhatsApp, socials, location, all in one tap — on a simple subscription. B2B, born in Al Ain.</p>
+      <div class="chips"><span class="chip">B2B</span><span class="chip">QR tech</span><span class="chip">Subscription</span></div>
+    </article>
+    <article class="now-card rv">
+      <span class="status launch">Launching</span>
+      <h3>Aakriti</h3>
+      <span class="now-tag">AI marketing for UAE businesses</span>
+      <p>Helping UAE restaurants, boutiques and real estate get more customers with AI — shown openly, in simple English + Hindi, zero jargon. Aakriti means "form": giving a business a shape people remember.</p>
+      <div class="chips"><span class="chip">AI marketing</span><span class="chip">Content</span>
+        <!-- PASTE-LINK : Aakriti Instagram @aakriti.design -->
+        <a class="chip" href="#" target="_blank" rel="noopener" style="color:var(--saffron);border-color:var(--saffron)">Visit →</a></div>
+    </article>
+    <article class="now-card rv">
+      <span class="status daily">Daily</span>
+      <h3>AI Mastery</h3>
+      <span class="now-tag">Learning in public</span>
+      <p>Thirty minutes a day going deep on prompt engineering and AI workflows with Claude. Certified along the way: One Million Prompters, AI For Everyone, Claude Basics, Leading AI Adoption.</p>
+      <div class="chips"><span class="chip">Prompting</span><span class="chip">Always learning</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 08 · MY LIFE · MY PEOPLE ══════════ -->
+<section id="family">
+  <div class="chap">08 — MY LIFE · MY PEOPLE</div>
+  <h2 class="sec-title">Fourteen Cats <span class="ol">&amp; Counting</span></h2>
+  <p class="sec-sub">None of them were planned. Every one of them is family. I'm the guy who eats chicken yet can't meet the eyes of a goat in a transport truck without whispering sorry — compassion isn't logical, it's inherited. My family have been givers and animal people since before I could walk. Here's how a small studio in Al Ain became a full house, chapter by chapter.</p>
+
+  <div class="cat-grid">
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01 — COCO</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 01 — Where it began</span>
+        <h3>Coco</h3>
+        <p>New studio, living alone, thinking about getting a pet — then I found a small cat inside my neighbour's place and "rescued" her, sure she'd wandered in by mistake. Named her Coco after serious research into the best cat names. Her spay surgery later terrified me — I was scared of losing her — but we both came out stronger, and life restarted.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02 — MOMMY &amp; THE QUEENS</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 02 — The rainy season</span>
+        <h3>Mommy &amp; the Four Queens</h3>
+        <p>A pregnant stray I'd been feeding outside needed shelter when the rains began. The plan was simple: keep her safe until the babies came. She had four girls — Rani, Princess, Angel and Queen — no name research needed this time, and "Mommy" just stuck.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03 — THE SECOND LITTER</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 03 — Fate's turn</span>
+        <h3>The Second Litter</h3>
+        <p>Mommy slipped away — and came back with four more kittens. Three girls and one little boy. I tried everything I could, but he couldn't be saved. He's the reason I've never said no to a rescue since. Nine cats now shared one small roof — and I learned to walk like a dancer, small steps only, because one big step could hurt somebody.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04 — LALA</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 04 — The parking lot</span>
+        <h3>Lala</h3>
+        <p>A kitten dropped near my workplace parking, with injuries. I fed her thinking surely someone would take her home. That someone, in the end, was me.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05 — DULLI</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 05 — Lightning twice</span>
+        <h3>Dulli</h3>
+        <p>A few months later — same parking lot, same story. Meet Dulli. Apparently that parking lot knows my weakness.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06 — RAJA</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 06 — The window</span>
+        <h3>Raja</h3>
+        <p>A fearless, vocal outdoor kitten — his shy sister always waiting behind — made a habit of sitting on my window ledge, exactly where my indoor cats sleep. The glass is one-way; he couldn't see in. On one side: 24-hour food, water and AC. A pane apart: a cat fighting the desert heat. I started letting him in. Then he vanished for a week, his sister too. When I finally found him, alone, the decision made itself. Raja — the king.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07 — THE FIGHTER</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 07 — The long way</span>
+        <h3>The Fighter</h3>
+        <p>Meows in the dark outside my door. Next morning I found her by the flower pot — broken leg, lower body not working. Surgery would cost my entire month's salary with no promise of a cure. So we did it the long way: a little house in my washroom with her own food, water and washroom corner, cleaning her every day, walking practice, medicines, play. Three months to stay alive. A year later, she runs like all the others.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08 — PHILIPPINE &amp; KABAHAN</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 08 — The outdoor family</span>
+        <h3>Philippine &amp; Kabahan</h3>
+        <p>Someone left a mother and four very, very cute kittens outside my building. The house was full, so I built them a cardboard home with cushions, food and water. Then one kitten went missing. Three days later I found another gone forever. Decision made: the mom and her last two — Philippine and Kabahan — moved in.</p>
+      </div>
+    </article>
+    <article class="cat-card rv">
+      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09 — THE LAST RESCUE</span></div></div>
+      <div class="cat-body">
+        <span class="mono">Chapter 09 — Two months ago</span>
+        <h3>The Last Rescue</h3>
+        <p>Both mother cats eventually left for lives of their own — one came back pregnant, then got lost. Of her litter I could save just one, home with me for two months now. I'm still searching for her mom. The door stays open.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b><span data-count="14">0</span></b><span>Cats &amp; counting</span></div>
+    <div class="stat"><b>2–3<small> min</small></b><span>To reach my own kitchen</span></div>
+    <div class="stat"><b><span data-count="8">0</span><small> min</small></b><span>To leave the house</span></div>
+    <div class="stat"><b><span data-count="3">0</span><small> yrs</small></b><span>No vacation · zero regrets</span></div>
+  </div>
+
+  <div class="cat-callout rv">
+    <h3>This is why I can't leave <em>Al Ain.</em></h3>
+    <p>Three years without a holiday — because family doesn't do well alone. Fourteen heartbeats depend on me being exactly here: small steps through the house so nobody gets hurt, their dinner served before mine. Al Ain is home for as long as they are. Employers, read that as: the most rooted, most committed candidate you will ever meet.</p>
+  </div>
+
+  <div class="family-grid">
+    <article class="now-card rv">
+      <h3>Back Home</h3>
+      <span class="now-tag">The original pack</span>
+      <p>My mom and my sister — the givers I inherited all of this from — plus two dogs, Rockey and Chenchin, and a cat named Lala. Yes, another Lala; great names deserve encores. From childhood, pets were never "animals" in our house. They were simply part of the family.</p>
+      <div class="chips"><span class="chip">Mom</span><span class="chip">Sister</span><span class="chip">Rockey</span><span class="chip">Chenchin</span><span class="chip">Lala</span></div>
+    </article>
+    <article class="now-card rv">
+      <h3>The Etisalat Family</h3>
+      <span class="now-tag">Service before sales</span>
+      <p>Nine-plus years in sales, and never once have I lied or cheated for a deal — whatever the situation. I care about the service more than the sale, and the targets still get met; I work with dignity and stand by my decisions. I've watched Etisalat grow not just in revenue, but in transparency and the trust customers place in it. And I work beside people whose craft genuinely amazes me — I study them daily, with full respect.</p>
+      <div class="gwall">
+        <span class="mono">The crew</span>
+        <!-- Prasant: double-check every name spelling below before publishing. "Benedict" was written as "Be Edit" — confirm. -->
+        <div class="chips"><span class="chip">Umair</span><span class="chip">Ryan</span><span class="chip">Ziko</span><span class="chip">Erwin</span><span class="chip">Benedict</span><span class="chip">Erick</span><span class="chip">Hamda</span><span class="chip">Akhil</span><span class="chip">Abdulla</span><span class="chip">Mark</span><span class="chip">Mohanat</span><span class="chip">…and many more</span></div>
+        <span class="mono">The mentors</span>
+        <div class="chips"><span class="chip">Ms. Mariam — Area Manager</span><span class="chip">Ms. Mona</span><span class="chip">Mr. Sulaiman</span><span class="chip">Mr. Ala</span><span class="chip">Mr. Anwar</span><span class="chip">Mr. Mulhan</span><span class="chip">Mr. Khurbi</span><span class="chip">Hassan</span><span class="chip">Mr. Fauzi</span><span class="chip">Ms. Amira</span><span class="chip">Mr. Falah</span><span class="chip">Mr. Salmi</span></div>
+      </div>
+      <div class="quoteline">"I believe in keeping the good — the bad is a person's situation, not their behaviour." Thank you, everyone, for being part of my family.</div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 09 · PHOTO GALLERY (20 slots) ══════════ -->
+<section id="photos">
+  <div class="chap">09 — PHOTO GALLERY</div>
+  <h2 class="sec-title">Twenty <span class="ol">Frames</span></h2>
+  <p class="sec-sub">Prints, shoots, builds and travels — twenty frames waiting for their stories. Dropping soon.</p>
+  <div class="g-grid">
+    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 01 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 02 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 03 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 04 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 05 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 06 · SHOOTS &amp; EDITS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 07 · U-DESIGN PRINTS</span></div></div></figure>
+    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 08 · U-DESIGN PRINTS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 09 · U-DESIGN PRINTS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 10 · U-DESIGN PRINTS</span></div></div></figure>
+    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 11 · U-DESIGN PRINTS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 12 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
+    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 13 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 14 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 15 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
+    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 16 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 17 · TRAVEL &amp; PERSONAL</span></div></div></figure>
+    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 18 · TRAVEL &amp; PERSONAL</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 19 · TRAVEL &amp; PERSONAL</span></div></div></figure>
+    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 20 · TRAVEL &amp; PERSONAL</span></div></div></figure>
+  </div>
+</section>
+
+<!-- ══════════ 10 · VIDEO GALLERY (4 slots) ══════════ -->
+<section id="videos">
+  <div class="chap">10 — VIDEO GALLERY</div>
+  <h2 class="sec-title">In <span class="ol">Motion</span></h2>
+  <p class="sec-sub">Edits, motion graphics and behind-the-scenes — four screens, loading soon.</p>
+  <div class="v-grid">
+    <div class="vph wide rv"><div class="ph-empty play"><span class="ph-num">VIDEO 01 — FEATURED EDIT</span></div></div>
+    <div class="vph rv"><div class="ph-empty play"><span class="ph-num">VIDEO 02</span></div></div>
+    <div class="vph rv"><div class="ph-empty play"><span class="ph-num">VIDEO 03</span></div></div>
+    <div class="vph wide rv"><div class="ph-empty play"><span class="ph-num">VIDEO 04</span></div></div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════ 11 · CONTACT ══════════ -->
+<footer id="contact">
+  <div class="chap">11 — CONTACT</div>
+  <div class="foot-cta">
+    <h2 class="rv">Got an idea?<br>Let's make it <em>move.</em></h2>
+  </div>
+  <div class="btn-row rv">
+    <a class="btn solid" href="mailto:Tz.Prasant.Official@gmail.com">Email me</a>
+    <a class="btn" href="tel:+971544303956">+971 54 430 3956</a>
+    <!-- PASTE-LINK : replace # with https://wa.me/971544303956 or your WhatsApp link -->
+    <a class="btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+  <div class="socials rv">
+    <!-- PASTE-LINK : replace each # with your real profile URLs -->
+    <a href="#" target="_blank" rel="noopener">Instagram</a>
+    <a href="#" target="_blank" rel="noopener">YouTube</a>
+    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" target="_blank" rel="noopener">U-Design</a>
+    <a href="#" target="_blank" rel="noopener">Aakriti</a>
+  </div>
+  <div class="foot-meta">
+    <span>© 2026 PRASANT KUMAR THAPA — AL AIN, UAE</span>
+    <span>LOCAL TIME <span id="clock">--:--:--</span></span>
+    <span>U DESIGN. WE PRINT. ✦ AAKRITI</span>
+    <span><b style="color:var(--cyan);font-weight:500">C</b>·<b style="color:var(--terra);font-weight:500">M</b>·<b style="color:var(--saffron);font-weight:500">Y</b>·K — INK BY U-DESIGN</span>
+    <span>BUILT WITH CLAUDE · MOTION COMING SOON</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Al Ain local clock */
+var clock=$('#clock');
+if(clock){
+  try{
+    var fmt=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Dubai'});
+    var tick=function(){clock.textContent=fmt.format(new Date())};
+    tick(); setInterval(tick,1000);
+  }catch(e){}
+}
+
+/* edge navigation */
+var edge=$('#edge');
+if(edge){
+  $('#edgeOpen').addEventListener('click',function(){edge.classList.add('open')});
+  $('#edgeClose').addEventListener('click',function(){edge.classList.remove('open')});
+  $$('.edge-panel a').forEach(function(a){a.addEventListener('click',function(){edge.classList.remove('open')})});
+}
+
+console.log('%c PRASANT \u00d7 CLAUDE ','background:#e0913a;color:#0b0a10;font-weight:bold;padding:4px 10px;border-radius:4px','\u2014 thanks for peeking under the hood \ud83d\udc40');
+
+var pre=$('#preloader');
+
+/* no animation path: reduced motion, or CDN blocked */
+if(reduced||typeof gsap==='undefined'){
+  if(pre)pre.remove();
+  document.body.classList.remove('locked');
+  return;
+}
+
+gsap.registerPlugin(ScrollTrigger,MotionPathPlugin);
+
+/* split about paragraph into words */
+$$('[data-words]').forEach(function(el){
+  el.innerHTML=el.textContent.trim().split(/\s+/).map(function(w){return '<span class="w">'+w+'</span>'}).join(' ');
+});
+
+/* initial hidden states (set via JS so no-JS visitors still see everything) */
+gsap.set('.rv',{opacity:0,y:40});
+gsap.set('.name-line>span',{yPercent:130});
+gsap.set('.hero-role',{opacity:0,y:26});
+gsap.set('.hero-meta .hm, .scroll-hint',{opacity:0,y:16});
+gsap.set('#about .w',{opacity:.13});
+
+/* ---- preloader ---- */
+document.body.classList.add('locked');
+var pct=$('#pct'), o={v:0};
+gsap.to(o,{v:100,duration:1.7,ease:'power2.inOut',
+  onUpdate:function(){pct.textContent=String(Math.round(o.v)).padStart(3,'0')},
+  onComplete:function(){
+    gsap.to(pre,{yPercent:-100,duration:.85,ease:'power4.inOut',onComplete:function(){
+      pre.remove();document.body.classList.remove('locked');ScrollTrigger.refresh();
+    }});
+    gsap.to('.hero-meta .hm, .scroll-hint',{opacity:1,y:0,stagger:.07,duration:.7,ease:'power3.out',delay:.35});
+  }
+});
+
+/* ---- scroll progress bar ---- */
+gsap.to('#progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.4}});
+
+/* ---- HERO: name rises from below as you scroll (pinned) ---- */
+var ht=gsap.timeline({scrollTrigger:{trigger:'#hero',start:'top top',end:'+=240%',scrub:1,pin:true,anticipatePin:1}});
+ht.to('.name-line>span',{yPercent:0,stagger:.12,ease:'power2.out',duration:1})
+  .to('.hero-role',{opacity:1,y:0,duration:.4},'-=.25')
+  .to({},{duration:.5})
+  .to('.hero-name',{yPercent:-155,ease:'power2.in',duration:1.1})
+  .to('.hero-role',{opacity:0,y:-40,duration:.5},'<')
+  .to('.hero-meta .hm',{opacity:0,duration:.4},'<+.1');
+gsap.to('.scroll-hint',{opacity:0,scrollTrigger:{trigger:'#hero',start:'top top',end:'+=15%',scrub:true}});
+
+/* ---- ABOUT: word-by-word reveal ---- */
+gsap.to('#about .w',{opacity:1,duration:.3,stagger:.05,ease:'none',
+  scrollTrigger:{trigger:'.about-copy',start:'top 78%',end:'bottom 45%',scrub:true}});
+
+/* stat counters */
+$$('[data-count]').forEach(function(el){
+  var end=parseInt(el.getAttribute('data-count'),10), c={v:0};
+  ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:function(){
+    gsap.to(c,{v:end,duration:1.4,ease:'power2.out',onUpdate:function(){el.textContent=Math.round(c.v)}});
+  }});
+});
+
+/* generic reveals */
+ScrollTrigger.batch('.rv',{start:'top 88%',once:true,onEnter:function(els){
+  gsap.to(els,{opacity:1,y:0,duration:.9,stagger:.09,ease:'power3.out'});
+}});
+
+/* ---- SHOWREEL: pinned frame that follows scroll and grows ---- */
+gsap.fromTo('.reel-frame',{scale:.5,borderRadius:'24px'},{scale:1,borderRadius:'0px',ease:'none',
+  scrollTrigger:{trigger:'#reel',start:'top top',end:'bottom bottom',scrub:1}});
+gsap.fromTo('.reel-word',{xPercent:10},{xPercent:-20,ease:'none',
+  scrollTrigger:{trigger:'#reel',start:'top bottom',end:'bottom top',scrub:1}});
+
+/* ---- EDUCATION: timeline rail draws itself ---- */
+gsap.to('.edu-rail i',{scaleY:1,ease:'none',
+  scrollTrigger:{trigger:'.edu-list',start:'top 75%',end:'bottom 55%',scrub:1}});
+
+/* ---- EXPERIENCE: horizontal flight on desktop, stacked on mobile ---- */
+var mm=gsap.matchMedia();
+mm.add('(min-width: 861px)',function(){
+  var track=$('.xp-track'); if(!track)return;
+  var dist=function(){return track.scrollWidth-window.innerWidth};
+  gsap.to(track,{x:function(){return -dist()},ease:'none',
+    scrollTrigger:{trigger:'#work',start:'top top',end:function(){return '+='+dist()},scrub:1,pin:true,invalidateOnRefresh:true,anticipatePin:1}});
+});
+mm.add('(max-width: 860px)',function(){
+  gsap.set('.xp-card',{opacity:0,y:40});
+  ScrollTrigger.batch('.xp-card',{start:'top 90%',once:true,onEnter:function(els){
+    gsap.to(els,{opacity:1,y:0,duration:.8,stagger:.12,ease:'power3.out'});
+  }});
+});
+
+/* ---- FLIGHT PATH: plane flies the sim journey as you scroll ---- */
+var svg=$('#simSvg'), path=$('#simPath'), plane=$('#plane');
+if(svg&&path&&plane){
+  var NS='http://www.w3.org/2000/svg';
+  var L=path.getTotalLength();
+  var stops=[
+    [0,'X-Plane 10','2013 \u00b7 where it began'],
+    [.34,'X-Plane 12','the upgrade'],
+    [.67,'MSFS 2020','a whole new world'],
+    [1,'MSFS 2024','current sky']
+  ];
+  stops.forEach(function(s){
+    var p=path.getPointAtLength(L*s[0]);
+    var lx=Math.min(Math.max(p.x,80),920);
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r',7);c.setAttribute('class','simdot');
+    var t1=document.createElementNS(NS,'text');
+    t1.setAttribute('x',lx);t1.setAttribute('y',p.y-26);t1.setAttribute('text-anchor','middle');t1.setAttribute('class','simlabel');
+    t1.textContent=s[1];
+    var t2=document.createElementNS(NS,'text');
+    t2.setAttribute('x',lx);t2.setAttribute('y',p.y+34);t2.setAttribute('text-anchor','middle');t2.setAttribute('class','simsub');
+    t2.textContent=s[2];
+    svg.insertBefore(c,plane);svg.insertBefore(t1,plane);svg.insertBefore(t2,plane);
+  });
+  path.style.strokeDasharray=L;
+  path.style.strokeDashoffset=L;
+  gsap.to(path,{strokeDashoffset:0,ease:'none',
+    scrollTrigger:{trigger:'#simwrap',start:'top 85%',end:'bottom 40%',scrub:1}});
+  gsap.to(plane,{ease:'none',immediateRender:true,
+    motionPath:{path:'#simPath',align:'#simPath',alignOrigin:[.5,.5],autoRotate:true},
+    scrollTrigger:{trigger:'#simwrap',start:'top 85%',end:'bottom 40%',scrub:1}});
+}
+
+/* ---- custom cursor (desktop only) ---- */
+if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.body.classList.add('has-cursor');
+  var d=$('.cursor-d'),r=$('.cursor-r');
+  var dx=gsap.quickTo(d,'x',{duration:.08}),dy=gsap.quickTo(d,'y',{duration:.08});
+  var rx=gsap.quickTo(r,'x',{duration:.35,ease:'power3'}),ry=gsap.quickTo(r,'y',{duration:.35,ease:'power3'});
+  window.addEventListener('mousemove',function(e){dx(e.clientX);dy(e.clientY);rx(e.clientX);ry(e.clientY)});
+  $$('a,button,.ph,.vph,.xp-card,.mk-card,.now-card,.yt-card').forEach(function(el){
+    el.addEventListener('mouseenter',function(){r.classList.add('big')});
+    el.addEventListener('mouseleave',function(){r.classList.remove('big')});
+  });
+}
+
+/* keep measurements accurate once fonts land */
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){ScrollTrigger.refresh()})}
+window.addEventListener('load',function(){ScrollTrigger.refresh()});
+})();
+</script>
+</body>
+</html>

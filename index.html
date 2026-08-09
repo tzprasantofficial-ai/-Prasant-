@@ -165,10 +165,11 @@ section{position:relative;padding:16vh 6vw}
 .about-copy .w{display:inline-block}
 .about-sub{color:var(--sand-dim);max-width:52ch;font-size:1.05rem}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:4rem}
-.stat{background:var(--ink);padding:1.6rem 1.4rem}
-.stat b{display:block;font-family:var(--font-d);font-weight:800;font-size:clamp(2rem,4.5vw,3.4rem);color:var(--saffron);line-height:1}
-.stat b small{font-size:.5em;vertical-align:top}
-.stat span{font-family:var(--font-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-dim)}
+.stat{background:var(--ink);padding:2.1rem 1.6rem 1.9rem;display:flex;flex-direction:column;gap:.75rem}
+.stat b{display:block;font-family:var(--font-d);font-weight:800;font-size:clamp(3.2rem,7vw,5.8rem);color:var(--saffron);line-height:.88;letter-spacing:-.035em}
+.stat b small{font-size:.32em;font-weight:700;color:var(--sand-dim);letter-spacing:.02em;margin-left:.12em}
+.stat span{font-family:var(--font-m);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sand-dim)}
+@media (max-width:520px){.stat b{font-size:2.7rem}}
 
 /* ---------- showreel ---------- */
 #reel{height:230vh;padding:0}
@@ -306,6 +307,29 @@ footer{position:relative;padding:14vh 6vw 3rem;border-top:1px solid var(--line)}
 .socials a:hover::after{width:100%}
 .foot-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);padding-top:1.6rem;font-family:var(--font-m);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-faint)}
 #clock{color:var(--saffron)}
+
+/* ---------- admin system ---------- */
+.lockwrap[hidden],#adminBar[hidden]{display:none}
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);background:var(--panel);border:1px solid var(--saffron);color:var(--sand);font-family:var(--font-d);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:1.1rem 1.8rem;z-index:300;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;text-align:center;max-width:88vw}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.lockwrap{position:fixed;inset:0;background:rgba(11,10,16,.85);backdrop-filter:blur(8px);z-index:290;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.lockbox{position:relative;width:min(440px,100%);background:var(--panel);border:1px solid var(--line);padding:2.4rem 2.2rem}
+.lockbox h3{font-size:1.5rem;margin:.5rem 0 1.4rem}
+.lock-l{display:block;font-family:var(--font-m);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-dim);margin-bottom:1.1rem}
+.lock-l input{display:block;width:100%;margin-top:.45rem;background:var(--ink);border:1px solid var(--line);color:var(--sand);font-family:var(--font-b);font-size:1rem;padding:.8rem .9rem;outline:none;border-radius:0}
+.lock-l input:focus{border-color:var(--cyan)}
+.lock-msg{min-height:1.2rem;font-family:var(--font-m);font-size:.66rem;letter-spacing:.1em;color:var(--terra);margin-bottom:.9rem}
+.lock-x{position:absolute;top:14px;right:16px;background:none;border:1px solid var(--line);color:var(--sand);width:34px;height:34px;border-radius:50%;cursor:pointer}
+.lock-x:hover{border-color:var(--terra);color:var(--terra)}
+#adminBar{position:fixed;left:0;right:0;bottom:0;z-index:280;display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between;background:rgba(19,17,25,.97);border-top:1px solid var(--cyan);padding:.8rem 1.2rem}
+#adminBar .mono{color:var(--cyan)}
+#adminBar div{display:flex;gap:.6rem}
+#adminBar .btn{padding:.6rem 1.1rem}
+body.admin .ph-empty{outline:2px dashed var(--cyan);outline-offset:-6px;cursor:pointer}
+body.admin [data-slot]{cursor:pointer}
+body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px;font-family:var(--font-m);font-size:.58rem;letter-spacing:.14em;background:var(--cyan);color:var(--ink);padding:.2rem .5rem;z-index:6}
+.vph img,.ph-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cat-photo video,.yt-thumb video{width:100%;height:100%;object-fit:cover}
 
 /* ---------- responsive ---------- */
 @media (max-width:1060px){
@@ -858,6 +882,27 @@ footer{position:relative;padding:14vh 6vw 3rem;border-top:1px solid var(--line)}
   </div>
 </footer>
 
+<!-- admin system UI (hidden until the secret unlock) -->
+<div id="toast" class="toast"></div>
+<div id="lockModal" class="lockwrap" hidden>
+  <div class="lockbox">
+    <button class="lock-x" id="lockClose" aria-label="Close">✕</button>
+    <div class="mono" style="color:var(--cyan)">RESTRICTED — FLIGHT DECK</div>
+    <h3>Captain Verification</h3>
+    <label class="lock-l">Access code<input id="lockPass" type="password" inputmode="numeric" autocomplete="off"></label>
+    <label class="lock-l">Security question — your grandfather's name<input id="lockQ" type="text" autocomplete="off"></label>
+    <div id="lockMsg" class="lock-msg"></div>
+    <button class="btn solid" id="lockGo">Unlock admin</button>
+  </div>
+</div>
+<div id="adminBar" hidden>
+  <span class="mono">ADMIN MODE — tap any media slot to set or change it · type DELETE in the box to clear a slot</span>
+  <div>
+    <button class="btn" id="admExport">Export updated site</button>
+    <button class="btn" id="admExit">Exit</button>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
@@ -887,6 +932,108 @@ if(edge){
 }
 
 console.log('%c PRASANT \u00d7 CLAUDE ','background:#e0913a;color:#0b0a10;font-weight:bold;padding:4px 10px;border-radius:4px','\u2014 thanks for peeking under the hood \ud83d\udc40');
+
+/* ════════ ADMIN SYSTEM — media manager + secret unlock ════════
+   Note: only encrypted fingerprints (SHA-256) of the credentials are
+   stored below — the real code and answer never appear in this file. */
+var PRISTINE='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+var SLOTS=[];
+$$('.ph-empty').forEach(function(el,i){
+  var host=el.parentElement;
+  host.setAttribute('data-slot',i);
+  SLOTS.push({host:host,nodeEl:el,orig:el.outerHTML,current:el.outerHTML,
+    label:(el.querySelector('.ph-num')?el.querySelector('.ph-num').textContent:'slot '+(i+1))});
+  host.addEventListener('click',function(e){
+    if(!document.body.classList.contains('admin'))return;
+    e.preventDefault();e.stopPropagation();
+    editSlot(i);
+  });
+});
+function mediaHTML(raw){
+  var p=raw.trim().replace(/"/g,'');
+  if(/youtu\.be\/|youtube\.com/.test(p)){
+    var m=p.match(/[?&]v=([\w-]{6,})/)||p.match(/youtu\.be\/([\w-]{6,})/)||p.match(/embed\/([\w-]{6,})/)||p.match(/shorts\/([\w-]{6,})/);
+    var src=m?('https://www.youtube.com/embed/'+m[1]):p;
+    return '<iframe src="'+src+'" title="video" frameborder="0" allowfullscreen></iframe>';
+  }
+  if(/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(p))return '<video src="'+p+'" controls playsinline preload="metadata"></video>';
+  return '<img src="'+p+'" alt="" loading="lazy">';
+}
+function swapNode(s,html){
+  var t=document.createElement('div');t.innerHTML=html;
+  var n=t.firstChild;
+  s.nodeEl.parentNode.replaceChild(n,s.nodeEl);
+  s.nodeEl=n;s.current=html;
+}
+function editSlot(i){
+  var s=SLOTS[i];
+  var input=window.prompt('MEDIA FOR: '+s.label+'\n\n\u2022 Paste a file path (photos/coco.jpg, videos/reel.mp4)\n\u2022 or a full image/video URL\n\u2022 or a YouTube link\n\u2022 Type DELETE to clear the slot\n\u2022 Cancel = no change','');
+  if(input===null||input.trim()==='')return;
+  if(input.trim().toUpperCase()==='DELETE'){swapNode(s,s.orig);showToast('Slot cleared');return;}
+  swapNode(s,mediaHTML(input));showToast('Media set \u2014 press Export when you finish');
+}
+function exportSite(){
+  var out=PRISTINE,changed=0;
+  SLOTS.forEach(function(s){if(s.current!==s.orig){out=out.split(s.orig).join(s.current);changed++;}});
+  var blob=new Blob([out],{type:'text/html'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';
+  document.body.appendChild(a);a.click();a.remove();
+  showToast(changed?('Exported with '+changed+' change(s) \u2014 upload index.html + your media files to GitHub'):'Exported (no changes yet)');
+}
+/* toast */
+var toastEl=$('#toast'),toastT;
+function showToast(msg){if(!toastEl)return;toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show')},2800);}
+/* secret logo clicks: 5 = message, 10 = flight deck */
+var brand=document.querySelector('.brand'),clicks=0,clkT=null;
+if(brand){brand.addEventListener('click',function(e){
+  e.preventDefault();
+  clicks++;clearTimeout(clkT);clkT=setTimeout(function(){clicks=0},6000);
+  if(clicks===1)window.scrollTo({top:0,behavior:'smooth'});
+  if(clicks===5)showToast('Keep Calm and Trust Me');
+  if(clicks>=10){clicks=0;openLock();}
+});}
+/* lock modal */
+var PASS_H='3133386077078a7f8a06d14cc0c86564734b7fd776674439b4f4ec144a0383ad';
+var ANS_H='ba2f70362a64120109c5f83ef8dd4a96783776905225da9c6e4d7ac4287aff6f';
+var PASS_F='2e49d8b2',ANS_F='d4d0f201';
+var lockModal=$('#lockModal'),lockPass=$('#lockPass'),lockQ=$('#lockQ'),lockMsg=$('#lockMsg'),fails=0,coolT=0;
+function openLock(){if(!lockModal)return;lockModal.hidden=false;lockMsg.textContent='';lockPass.value='';lockQ.value='';setTimeout(function(){lockPass.focus()},60);}
+function closeLock(){if(lockModal)lockModal.hidden=true;}
+function fnv(str){var h=0x811c9dc5;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h.toString(16);}
+function sha256hex(str){
+  try{
+    if(window.crypto&&crypto.subtle&&window.TextEncoder){
+      return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(function(buf){
+        var out='';new Uint8Array(buf).forEach(function(b){out+=b.toString(16).padStart(2,'0')});
+        return out;
+      }).catch(function(){return null});
+    }
+  }catch(e){}
+  return Promise.resolve(null);
+}
+function verify(){
+  if(Date.now()<coolT){lockMsg.textContent='TOO MANY TRIES \u2014 WAIT A MOMENT';return;}
+  var p=lockPass.value.trim(),q=lockQ.value.trim().toUpperCase();
+  Promise.all([sha256hex(p),sha256hex(q)]).then(function(r){
+    var ok=r[0]&&r[1]?(r[0]===PASS_H&&r[1]===ANS_H):(fnv(p)===PASS_F&&fnv(q)===ANS_F);
+    if(ok){
+      closeLock();document.body.classList.add('admin');$('#adminBar').hidden=false;fails=0;
+      showToast('Welcome aboard, Captain \u2708');
+    }else{
+      fails++;lockMsg.textContent='ACCESS DENIED';
+      if(fails>=3){coolT=Date.now()+15000;lockMsg.textContent='ACCESS DENIED \u2014 LOCKED FOR 15 SECONDS';}
+    }
+  });
+}
+if(lockModal){
+  $('#lockGo').addEventListener('click',verify);
+  $('#lockClose').addEventListener('click',closeLock);
+  lockModal.addEventListener('click',function(e){if(e.target===lockModal)closeLock();});
+  [lockPass,lockQ].forEach(function(inp){inp.addEventListener('keydown',function(e){if(e.key==='Enter')verify();});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lockModal.hidden)closeLock();});
+  $('#admExport').addEventListener('click',exportSite);
+  $('#admExit').addEventListener('click',function(){document.body.classList.remove('admin');$('#adminBar').hidden=true;showToast('Admin mode off');});
+}
 
 var pre=$('#preloader');
 
@@ -939,7 +1086,7 @@ gsap.to('.scroll-hint',{opacity:0,scrollTrigger:{trigger:'#hero',start:'top top'
 
 /* ---- ABOUT: word-by-word reveal ---- */
 gsap.to('#about .w',{opacity:1,duration:.3,stagger:.05,ease:'none',
-  scrollTrigger:{trigger:'.about-copy',start:'top 78%',end:'bottom 45%',scrub:true}});
+  scrollTrigger:{trigger:'.about-copy',start:'top bottom',end:'center 50%',scrub:true}});
 
 /* stat counters */
 $$('[data-count]').forEach(function(el){

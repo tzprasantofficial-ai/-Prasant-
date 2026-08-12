@@ -260,33 +260,52 @@ section{position:relative;padding:16vh 6vw}
 .now-tag{font-family:var(--font-m);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--saffron);display:block;margin-bottom:1rem}
 .now-card p{color:var(--sand-dim);font-size:.96rem}
 
-/* ---------- photo gallery ---------- */
-.g-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;grid-auto-flow:dense;gap:1rem;margin-top:3.5rem}
-.ph{position:relative;overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
+/* ---------- photo gallery (masonry — every photo keeps its own shape) ---------- */
+.g-grid{columns:4;column-gap:1rem;margin-top:3.5rem}
+.ph{position:relative;display:block;width:100%;break-inside:avoid;margin:0 0 1rem;overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
 .ph:hover{border-color:var(--saffron)}
-.ph.tall{grid-row:span 2}
-.ph.wide{grid-column:span 2}
-.ph-media{position:absolute;inset:0}
-.ph-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
-.ph:hover .ph-media img{transform:scale(1.06)}
+.ph-media{position:relative;width:100%}
+.ph-media img{display:block;width:100%;height:auto}
+.ph:hover .ph-media img{transform:scale(1.04)}
+.ph-media img{transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+/* placeholder shapes — only until a real photo loads */
+.ph-media>.ph-empty{position:relative;inset:auto;width:100%}
+.ph.r43 .ph-empty{aspect-ratio:4/3}
+.ph.r32 .ph-empty{aspect-ratio:3/2}
+.ph.r169 .ph-empty{aspect-ratio:16/9}
+.ph.r916 .ph-empty{aspect-ratio:9/16}
+.ph.r11 .ph-empty{aspect-ratio:1/1}
 
 /* ---------- video gallery ---------- */
 .v-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:3.5rem}
-.vph{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
+.vph{position:relative;aspect-ratio:16/9;background:var(--ink2);overflow:hidden;border:1px solid var(--line);transition:border-color .3s}
 .vph:hover{border-color:var(--saffron)}
 .vph.wide{grid-column:span 2}
+.vph.tall{aspect-ratio:9/16;grid-column:span 1}
 .vph video,.vph iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 
-/* ---------- family & cats ---------- */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.5rem}
-.cat-card{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .35s,border-color .35s}
-.cat-card:hover{transform:translateY(-6px);border-color:var(--terra)}
-.cat-photo{position:relative;aspect-ratio:4/3;border-bottom:1px solid var(--line);overflow:hidden}
-.cat-photo img{width:100%;height:100%;object-fit:cover}
-.cat-body{padding:1.4rem 1.4rem 1.6rem}
-.cat-body .mono{color:var(--terra);display:block;margin-bottom:.55rem}
-.cat-body h3{font-size:1.12rem;margin-bottom:.5rem}
-.cat-body p{color:var(--sand-dim);font-size:.9rem}
+/* ---------- family & cats (horizontal 3-panel rows) ---------- */
+.cat-rows{margin-top:3.5rem}
+.cat-row{position:relative;height:100svh;overflow:hidden}
+.cat-sticky{height:100%;display:flex;align-items:center}
+.cat-track{display:flex;gap:1.6rem;align-items:stretch;padding-right:6vw;will-change:transform}
+.cpanel{position:relative;flex:0 0 auto;width:min(600px,78vw);background:var(--panel);border:1px solid var(--line);padding:2.4rem 2.2rem;display:flex;flex-direction:column;justify-content:center;transition:border-color .3s}
+.cpanel:hover{border-color:var(--terra)}
+.cpanel-idx{position:absolute;top:-1rem;right:.8rem;font-family:var(--font-d);font-weight:800;font-size:7rem;color:rgba(244,238,226,.05);line-height:1;user-select:none}
+.cpanel .mono{color:var(--terra);margin-bottom:.9rem;display:block}
+.cpanel h3{font-size:clamp(1.6rem,3.4vw,2.6rem);margin-bottom:1rem}
+.cpanel-story p{color:var(--sand-dim);font-size:1rem}
+.swipe{display:block;margin-top:1.6rem;color:var(--sand-faint)}
+.cpanel-media{padding:0;overflow:hidden}
+.cphoto{position:relative;width:100%;aspect-ratio:4/3;background:var(--ink2);border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto}
+.cphoto img,.cphoto video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cfacts{padding:1.6rem 1.8rem 1.9rem;display:grid;gap:.9rem}
+.cfacts>div{display:grid;grid-template-columns:130px 1fr;gap:1rem;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:.8rem}
+.cfacts>div:last-child{border-bottom:0;padding-bottom:0}
+.cfacts dt{font-family:var(--font-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--terra)}
+.cfacts dd{color:var(--sand);font-size:.95rem}
+.cmoment{padding:1.6rem 1.8rem 1.9rem}
+.cmoment p{color:var(--sand-dim);font-size:.98rem}
 .cat-callout{margin-top:3.5rem;border:1px solid var(--line);background:var(--panel);padding:3rem 2.5rem}
 .cat-callout h3{font-size:clamp(1.6rem,4vw,3rem);max-width:22ch;margin-bottom:1rem}
 .cat-callout h3 em{font-style:normal;color:var(--terra)}
@@ -330,12 +349,46 @@ body.admin [data-slot]{cursor:pointer}
 body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px;font-family:var(--font-m);font-size:.58rem;letter-spacing:.14em;background:var(--cyan);color:var(--ink);padding:.2rem .5rem;z-index:6}
 .vph img,.ph-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cat-photo video,.yt-thumb video{width:100%;height:100%;object-fit:cover}
+.reel-frame img,.reel-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.stack{position:absolute;inset:0;overflow:hidden}
+.stack .fr{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform;transform-origin:center}
+.frdots{position:absolute;bottom:10px;right:12px;display:flex;gap:5px;z-index:4}
+.frdots i{width:6px;height:6px;border-radius:50%;background:rgba(244,238,226,.32);transition:background .3s,transform .3s}
+.frdots i.on{background:var(--saffron);transform:scale(1.25)}
+.cat-photo>img,.yt-thumb>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph>img,.vph>video,.vph>iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ---------- admin media studio ---------- */
+body.admin [data-slot]{position:relative}
+body.admin .ph-empty{outline:2px dashed var(--cyan);outline-offset:-6px;cursor:pointer}
+body.admin [data-slot].dragover{outline:3px solid var(--saffron);outline-offset:-4px}
+body.admin [data-slot].armed::before{content:"PASTE READY — Ctrl+V";position:absolute;bottom:8px;left:8px;font-family:var(--font-m);font-size:.56rem;letter-spacing:.12em;background:var(--saffron);color:var(--ink);padding:.22rem .5rem;z-index:7}
+.slotname{position:absolute;top:8px;left:8px;font-family:var(--font-m);font-size:.55rem;letter-spacing:.1em;background:rgba(11,10,16,.85);color:var(--sand-dim);padding:.22rem .5rem;z-index:6;display:none}
+body.admin .slotname{display:block}
+#cropWrap{position:fixed;inset:0;background:rgba(11,10,16,.94);backdrop-filter:blur(10px);z-index:310;display:flex;align-items:center;justify-content:center;padding:1rem}
+#cropWrap[hidden]{display:none}
+.cropbox{width:min(720px,100%);max-height:94svh;overflow:auto;background:var(--panel);border:1px solid var(--line);padding:1.6rem}
+.cropbox h3{font-size:1.2rem;margin:.3rem 0 .2rem}
+.crop-meta{font-family:var(--font-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+.crop-stage{position:relative;margin:0 auto;background:var(--ink);border:1px solid var(--line);overflow:hidden;touch-action:none;cursor:grab}
+.crop-stage.grabbing{cursor:grabbing}
+.crop-stage img{position:absolute;transform-origin:0 0;user-select:none;-webkit-user-drag:none;pointer-events:none;max-width:none}
+.crop-guide{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(244,238,226,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(244,238,226,.16) 1px,transparent 1px);background-size:33.33% 33.33%;background-position:0 0}
+.crop-ctrl{display:flex;align-items:center;gap:.8rem;margin:1rem 0}
+.crop-ctrl label{font-family:var(--font-m);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-dim);white-space:nowrap}
+.crop-ctrl input[type=range]{flex:1;accent-color:var(--saffron)}
+.crop-btns{display:flex;flex-wrap:wrap;gap:.7rem}
+.crop-btns .btn{padding:.75rem 1.3rem}
+.crop-hint{font-family:var(--font-m);font-size:.58rem;letter-spacing:.1em;color:var(--sand-faint);margin-top:.9rem;line-height:1.7}
+.ratio-pick{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.ratio-pick button{font-family:var(--font-m);font-size:.58rem;letter-spacing:.1em;background:none;border:1px solid var(--line);color:var(--sand-dim);padding:.35rem .7rem;cursor:pointer}
+.ratio-pick button.on{background:var(--cyan);border-color:var(--cyan);color:var(--ink)}
+#dlCount{color:var(--saffron)}
 
 /* ---------- responsive ---------- */
 @media (max-width:1060px){
   .maker-grid{grid-template-columns:1fr}
-  .cat-grid{grid-template-columns:repeat(2,1fr)}
-  .g-grid{grid-template-columns:repeat(3,1fr)}
+    .g-grid{columns:3}
 }
 @media (max-width:860px){
   section{padding:12vh 6vw}
@@ -347,8 +400,12 @@ body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px
   .xp-head{position:static;margin-bottom:2.5rem}
   .xp-track{flex-direction:column;align-items:stretch;height:auto;padding:0;gap:1.4rem}
   .xp-card{width:100%}
-  .yt-grid,.now-grid,.cat-grid{grid-template-columns:1fr}
-  .g-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .yt-grid,.now-grid{grid-template-columns:1fr}
+  .cat-row{height:auto;overflow:visible}
+  .cat-sticky{display:block}
+  .cat-track{flex-direction:column;gap:1.2rem;padding-right:0;margin-bottom:2.5rem}
+  .cpanel{width:100%}
+  .g-grid{columns:2}
   .v-grid{grid-template-columns:1fr}
   .vph.wide{grid-column:span 1}
   #reel{height:190vh}
@@ -699,79 +756,259 @@ body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px
   <h2 class="sec-title">Fourteen Cats <span class="ol">&amp; Counting</span></h2>
   <p class="sec-sub">None of them were planned. Every one of them is family. I'm the guy who eats chicken yet can't meet the eyes of a goat in a transport truck without whispering sorry — compassion isn't logical, it's inherited. My family have been givers and animal people since before I could walk. Here's how a small studio in Al Ain became a full house, chapter by chapter.</p>
 
-  <div class="cat-grid">
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01 — COCO</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 01 — Where it began</span>
-        <h3>Coco</h3>
-        <p>New studio, living alone, thinking about getting a pet — then I found a small cat inside my neighbour's place and "rescued" her, sure she'd wandered in by mistake. Named her Coco after serious research into the best cat names. Her spay surgery later terrified me — I was scared of losing her — but we both came out stronger, and life restarted.</p>
+  <div class="cat-rows">
+    <div class="cat-row" data-cat="01">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">01</div>
+            <span class="mono">Chapter 01 — Where it began</span>
+            <h3>Coco</h3>
+            <p>New studio, living alone, thinking about getting a pet — then I found a small cat inside my neighbour's place and rescued her, sure she'd wandered in by mistake. Named her Coco after serious research into the best cat names. Her spay surgery later terrified me — I was scared of losing her — but we both came out stronger, and life restarted.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-01">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-01">—</dd></div>
+              <div><dt>How we met</dt><dd>Rescued from a neighbour's house — I was certain she'd wandered in by mistake</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>The night before her surgery I researched every possible outcome until sunrise. She woke up fine, stretched, and demanded food like nothing had happened.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02 — MOMMY &amp; THE QUEENS</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 02 — The rainy season</span>
-        <h3>Mommy &amp; the Four Queens</h3>
-        <p>A pregnant stray I'd been feeding outside needed shelter when the rains began. The plan was simple: keep her safe until the babies came. She had four girls — Rani, Princess, Angel and Queen — no name research needed this time, and "Mommy" just stuck.</p>
+    </div>
+    <div class="cat-row" data-cat="02">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">02</div>
+            <span class="mono">Chapter 02 — The rainy season</span>
+            <h3>Mommy &amp; the Four Queens</h3>
+            <p>A pregnant stray I'd been feeding outside needed shelter when the rains began. The plan was simple: keep her safe until the babies came. She had four girls — Rani, Princess, Angel and Queen — no name research needed this time, and "Mommy" just stuck.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-02">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-02">—</dd></div>
+              <div><dt>How we met</dt><dd>Took her in off the street during the rains, pregnant</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>Four daughters, four royal names — Rani, Princess, Angel and Queen. I ran out of ideas by the second one and just kept going up the hierarchy.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03 — THE SECOND LITTER</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 03 — Fate's turn</span>
-        <h3>The Second Litter</h3>
-        <p>Mommy slipped away — and came back with four more kittens. Three girls and one little boy. I tried everything I could, but he couldn't be saved. He's the reason I've never said no to a rescue since. Nine cats now shared one small roof — and I learned to walk like a dancer, small steps only, because one big step could hurt somebody.</p>
+    </div>
+    <div class="cat-row" data-cat="03">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">03</div>
+            <span class="mono">Chapter 03 — Fate's turn</span>
+            <h3>The Second Litter</h3>
+            <p>Mommy slipped away — and came back with four more kittens. Three girls and one little boy. I tried everything I could, but he couldn't be saved. He's the reason I've never said no to a rescue since.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-03">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-03">—</dd></div>
+              <div><dt>How we met</dt><dd>She left, then returned carrying four more</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>Nine cats in one small studio taught me to walk like a dancer. Two to three minutes just to reach my kitchen — and a full eight minutes to get out the front door, because nobody would let go of my legs.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04 — LALA</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 04 — The parking lot</span>
-        <h3>Lala</h3>
-        <p>A kitten dropped near my workplace parking, with injuries. I fed her thinking surely someone would take her home. That someone, in the end, was me.</p>
+    </div>
+    <div class="cat-row" data-cat="04">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">04</div>
+            <span class="mono">Chapter 04 — The parking lot</span>
+            <h3>Lala</h3>
+            <p>A kitten dropped near my workplace parking, with injuries. I fed her thinking surely someone would take her home. That someone, in the end, was me.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-04">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-04">—</dd></div>
+              <div><dt>How we met</dt><dd>Abandoned at my workplace parking lot, injured</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>I told myself I was only feeding her until somebody adopted her. That lasted about three days.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05 — DULLI</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 05 — Lightning twice</span>
-        <h3>Dulli</h3>
-        <p>A few months later — same parking lot, same story. Meet Dulli. Apparently that parking lot knows my weakness.</p>
+    </div>
+    <div class="cat-row" data-cat="05">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">05</div>
+            <span class="mono">Chapter 05 — Lightning twice</span>
+            <h3>Dulli</h3>
+            <p>A few months later — same parking lot, same story. Meet Dulli. Apparently that parking lot knows my weakness.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-05">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-05">—</dd></div>
+              <div><dt>How we met</dt><dd>Same parking lot as Lala, a few months later</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>At this point my colleagues stopped asking whether I'd take her, and started asking what I was going to name her.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06 — RAJA</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 06 — The window</span>
-        <h3>Raja</h3>
-        <p>A fearless, vocal outdoor kitten — his shy sister always waiting behind — made a habit of sitting on my window ledge, exactly where my indoor cats sleep. The glass is one-way; he couldn't see in. On one side: 24-hour food, water and AC. A pane apart: a cat fighting the desert heat. I started letting him in. Then he vanished for a week, his sister too. When I finally found him, alone, the decision made itself. Raja — the king.</p>
+    </div>
+    <div class="cat-row" data-cat="06">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">06</div>
+            <span class="mono">Chapter 06 — The window</span>
+            <h3>Raja</h3>
+            <p>A fearless, vocal outdoor kitten — his shy sister always waiting behind — made a habit of sitting on my window ledge, exactly where my indoor cats sleep. The glass is one-way; he couldn't see in. On one side: 24-hour food, water and AC. A pane apart: a cat fighting the desert heat.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-06">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-06">—</dd></div>
+              <div><dt>How we met</dt><dd>Adopted off my own window ledge after he disappeared for a week</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>He'd sit on the ledge for hours, on the exact spot where my indoor cats nap on the other side of the glass — two lives, one pane apart, and he never knew. I couldn't unsee it. So I opened the window.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07 — THE FIGHTER</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 07 — The long way</span>
-        <h3>The Fighter</h3>
-        <p>Meows in the dark outside my door. Next morning I found her by the flower pot — broken leg, lower body not working. Surgery would cost my entire month's salary with no promise of a cure. So we did it the long way: a little house in my washroom with her own food, water and washroom corner, cleaning her every day, walking practice, medicines, play. Three months to stay alive. A year later, she runs like all the others.</p>
+    </div>
+    <div class="cat-row" data-cat="07">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">07</div>
+            <span class="mono">Chapter 07 — The long way</span>
+            <h3>The Fighter</h3>
+            <p>Meows in the dark outside my door. Next morning I found her by the flower pot — broken leg, lower body not working. Surgery would cost my entire month's salary with no promise of a cure. So we did it the long way.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-07">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-07">—</dd></div>
+              <div><dt>How we met</dt><dd>Found by my flower pot with a broken leg and no use of her lower body</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>A little house in my washroom, cleaning her every day, walking practice, medicine, play. Three months to survive. A year later she runs faster than cats who never broke anything.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08 — PHILIPPINE &amp; KABAHAN</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 08 — The outdoor family</span>
-        <h3>Philippine &amp; Kabahan</h3>
-        <p>Someone left a mother and four very, very cute kittens outside my building. The house was full, so I built them a cardboard home with cushions, food and water. Then one kitten went missing. Three days later I found another gone forever. Decision made: the mom and her last two — Philippine and Kabahan — moved in.</p>
+    </div>
+    <div class="cat-row" data-cat="08">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">08</div>
+            <span class="mono">Chapter 08 — The outdoor family</span>
+            <h3>Philippine &amp; Kabahan</h3>
+            <p>Someone left a mother and four very cute kittens outside my building. The house was full, so I built them a cardboard home with cushions, food and water. Then one kitten went missing. Three days later I found another gone forever. Decision made — they moved in.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-08">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-08">—</dd></div>
+              <div><dt>How we met</dt><dd>Abandoned outside my building with their mother</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>One of them has a face that looks so much like a person I know that the name just happened. I still can't look at her without smiling.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
-    <article class="cat-card rv">
-      <div class="cat-photo"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09 — THE LAST RESCUE</span></div></div>
-      <div class="cat-body">
-        <span class="mono">Chapter 09 — Two months ago</span>
-        <h3>The Last Rescue</h3>
-        <p>Both mother cats eventually left for lives of their own — one came back pregnant, then got lost. Of her litter I could save just one, home with me for two months now. I'm still searching for her mom. The door stays open.</p>
+    </div>
+    <div class="cat-row" data-cat="09">
+      <div class="cat-sticky">
+        <div class="cat-track">
+          <article class="cpanel cpanel-story">
+            <div class="cpanel-idx">09</div>
+            <span class="mono">Chapter 09 — Two months ago</span>
+            <h3>The Last Rescue</h3>
+            <p>Both mother cats eventually left for lives of their own — one came back pregnant, then got lost. Of her litter I could save just one, home with me for two months now. I'm still searching for her mom.</p>
+            <span class="swipe mono">Keep scrolling →</span>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09</span></div></div>
+            <dl class="cfacts">
+              <div><dt>Breed</dt><dd data-fill="breed-09">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-fill="year-09">—</dd></div>
+              <div><dt>How we met</dt><dd>The only survivor of her litter — with me two months</dd></div>
+            </dl>
+          </article>
+          <article class="cpanel cpanel-media">
+            <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09B</span></div></div>
+            <div class="cmoment">
+              <span class="mono">The moment I remember</span>
+              <p>Number fourteen. Every single one arrived by accident, and not one of them was a mistake.</p>
+            </div>
+          </article>
+        </div>
       </div>
-    </article>
+    </div>
   </div>
 
   <div class="stats">
@@ -815,26 +1052,26 @@ body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px
   <h2 class="sec-title">Twenty <span class="ol">Frames</span></h2>
   <p class="sec-sub">Prints, shoots, builds and travels — twenty frames waiting for their stories. Dropping soon.</p>
   <div class="g-grid">
-    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 01 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 02 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 03 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 04 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 05 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 06 · SHOOTS &amp; EDITS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 07 · U-DESIGN PRINTS</span></div></div></figure>
-    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 08 · U-DESIGN PRINTS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 09 · U-DESIGN PRINTS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 10 · U-DESIGN PRINTS</span></div></div></figure>
-    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 11 · U-DESIGN PRINTS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 12 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
-    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 13 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 14 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 15 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
-    <figure class="ph wide rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 16 · FLIGHT SIM &amp; BUILDS</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 17 · TRAVEL &amp; PERSONAL</span></div></div></figure>
-    <figure class="ph tall rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 18 · TRAVEL &amp; PERSONAL</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 19 · TRAVEL &amp; PERSONAL</span></div></div></figure>
-    <figure class="ph rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 20 · TRAVEL &amp; PERSONAL</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 01 · 4:3</span></div></div></figure>
+    <figure class="ph r32 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 02 · 3:2</span></div></div></figure>
+    <figure class="ph r169 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 03 · 16:9 WIDE</span></div></div></figure>
+    <figure class="ph r916 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 04 · 9:16 TALL</span></div></div></figure>
+    <figure class="ph r11 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 05 · 1:1 SQUARE</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 06 · 4:3</span></div></div></figure>
+    <figure class="ph r32 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 07 · 3:2</span></div></div></figure>
+    <figure class="ph r916 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 08 · 9:16 TALL</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 09 · 4:3</span></div></div></figure>
+    <figure class="ph r169 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 10 · 16:9 WIDE</span></div></div></figure>
+    <figure class="ph r32 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 11 · 3:2</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 12 · 4:3</span></div></div></figure>
+    <figure class="ph r916 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 13 · 9:16 TALL</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 14 · 4:3</span></div></div></figure>
+    <figure class="ph r32 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 15 · 3:2</span></div></div></figure>
+    <figure class="ph r169 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 16 · 16:9 WIDE</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 17 · 4:3</span></div></div></figure>
+    <figure class="ph r916 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 18 · 9:16 TALL</span></div></div></figure>
+    <figure class="ph r32 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 19 · 3:2</span></div></div></figure>
+    <figure class="ph r43 rv"><div class="ph-media"><div class="ph-empty"><span class="ph-num">PHOTO 20 · 4:3</span></div></div></figure>
   </div>
 </section>
 
@@ -896,10 +1133,40 @@ body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px
   </div>
 </div>
 <div id="adminBar" hidden>
-  <span class="mono">ADMIN MODE — tap any media slot to set or change it · type DELETE in the box to clear a slot</span>
+  <span class="mono">ADMIN — drag a photo onto any slot · tap a slot to browse · Ctrl+V to paste</span>
   <div>
-    <button class="btn" id="admExport">Export updated site</button>
+    <button class="btn solid" id="admDownload">Save photos<span id="dlCount"></span></button>
+    <button class="btn" id="admExport">Export site</button>
     <button class="btn" id="admExit">Exit</button>
+  </div>
+</div>
+
+<div id="cropWrap" hidden>
+  <div class="cropbox">
+    <div class="mono" style="color:var(--cyan)">MEDIA STUDIO</div>
+    <h3 id="cropTitle">photo.jpg</h3>
+    <div class="crop-meta" id="cropMeta"></div>
+    <div class="ratio-pick" id="ratioPick">
+      <button data-r="1.3333">4:3</button>
+      <button data-r="1.5">3:2</button>
+      <button data-r="1.7778">16:9</button>
+      <button data-r="0.5625">9:16</button>
+      <button data-r="1">1:1</button>
+    </div>
+    <div class="crop-stage" id="cropStage">
+      <img id="cropImg" alt="">
+      <div class="crop-guide"></div>
+    </div>
+    <div class="crop-ctrl">
+      <label for="cropZoom">Zoom</label>
+      <input type="range" id="cropZoom" min="1" max="4" step="0.01" value="1">
+    </div>
+    <div class="crop-btns">
+      <button class="btn solid" id="cropSave">Save crop</button>
+      <button class="btn" id="cropReset">Reset</button>
+      <button class="btn" id="cropCancel">Cancel</button>
+    </div>
+    <div class="crop-hint">Drag the photo to reposition · scroll or pinch to zoom · pick a different shape above if you prefer<br>Saved crops download as correctly named .jpg files — put them in your <b>photos</b> folder on GitHub.</div>
   </div>
 </div>
 
@@ -946,9 +1213,258 @@ $$('.ph-empty').forEach(function(el,i){
   host.addEventListener('click',function(e){
     if(!document.body.classList.contains('admin'))return;
     e.preventDefault();e.stopPropagation();
-    editSlot(i);
+    $$('[data-slot]').forEach(function(n){n.classList.remove('armed')});
+    host.classList.add('armed');armed=i;
+    pendingSlot=i;fileInput.click();
   });
 });
+/* ════════ AUTO-LOAD MEDIA BY FILENAME ════════
+   Drop files into /photos and /videos using the names in the catalog and
+   they appear here automatically. Missing files just stay as placeholders.
+   Cat cards accept up to 3 frames: cat-01-coco.jpg, cat-01-coco-2.jpg,
+   cat-01-coco-3.jpg — they cross-fade as you scroll. */
+var FILES=[
+  ['showreel',1],
+  ['yt-tz-gaming',0],['yt-bakchod-reacts',0],
+  ['cat-01-coco',0],['cat-01-coco-2',0],
+  ['cat-02-mommy',0],['cat-02-mommy-2',0],
+  ['cat-03-second-litter',0],['cat-03-second-litter-2',0],
+  ['cat-04-lala',0],['cat-04-lala-2',0],
+  ['cat-05-dulli',0],['cat-05-dulli-2',0],
+  ['cat-06-raja',0],['cat-06-raja-2',0],
+  ['cat-07-fighter',0],['cat-07-fighter-2',0],
+  ['cat-08-philippine-kabahan',0],['cat-08-philippine-kabahan-2',0],
+  ['cat-09-last-rescue',0],['cat-09-last-rescue-2',0],
+  ['photo-01',0],['photo-02',0],['photo-03',0],['photo-04',0],['photo-05',0],
+  ['photo-06',0],['photo-07',0],['photo-08',0],['photo-09',0],['photo-10',0],
+  ['photo-11',0],['photo-12',0],['photo-13',0],['photo-14',0],['photo-15',0],
+  ['photo-16',0],['photo-17',0],['photo-18',0],['photo-19',0],['photo-20',0],
+  ['video-01',1],['video-02',1],['video-03',1],['video-04',1]
+];
+function attachNode(s,node){
+  if(!s.nodeEl||!s.nodeEl.parentNode)return;
+  s.nodeEl.parentNode.replaceChild(node,s.nodeEl);
+  s.nodeEl=node; /* filename-loaded: not baked into export, it loads on its own */
+}
+function resolveImage(base,cb){
+  var exts=['jpg','jpeg','png','webp'],i=0;
+  (function next(){
+    if(i>=exts.length){cb(null);return;}
+    var url='photos/'+base+'.'+exts[i++];
+    var p=new Image();
+    p.onload=function(){cb(url)};
+    p.onerror=next;
+    p.src=url;
+  })();
+}
+function autoLoad(s,base,isVideo){
+  if(isVideo){
+    var exts=['mp4','webm'],i=0;
+    (function next(){
+      if(i>=exts.length)return;
+      var url='videos/'+base+'.'+exts[i++];
+      var v=document.createElement('video');
+      v.preload='metadata';v.playsInline=true;v.setAttribute('playsinline','');
+      v.onloadedmetadata=function(){v.controls=true;attachNode(s,v)};
+      v.onerror=next;v.src=url;
+    })();
+    return;
+  }
+  resolveImage(base,function(url){
+    if(!url)return;
+    var img=document.createElement('img');
+    img.src=url;img.alt='';img.loading='lazy';
+    attachNode(s,img);
+  });
+}
+SLOTS.forEach(function(s,i){if(FILES[i])autoLoad(s,FILES[i][0],FILES[i][1]===1)});
+
+/* ════════ MEDIA STUDIO — drag & drop, paste, crop, mobile gallery ════════ */
+var RATIOS={'r43':4/3,'r32':3/2,'r169':16/9,'r916':9/16,'r11':1};
+function slotRatio(host){
+  if(host.classList.contains('cphoto'))return 4/3;
+  if(host.classList.contains('yt-thumb'))return 16/9;
+  if(host.classList.contains('reel-frame'))return 16/9;
+  if(host.classList.contains('vph'))return 16/9;
+  var fig=host.closest('.ph');
+  if(fig)for(var k in RATIOS)if(fig.classList.contains(k))return RATIOS[k];
+  return 4/3;
+}
+var CROPPED={};           /* filename -> blob */
+var armed=null;           /* slot awaiting a paste */
+var fileInput=document.createElement('input');
+fileInput.type='file';fileInput.accept='image/*';fileInput.style.display='none';
+document.body.appendChild(fileInput);
+var pendingSlot=null;
+fileInput.addEventListener('change',function(){
+  if(fileInput.files&&fileInput.files[0]&&pendingSlot!=null)openCrop(pendingSlot,fileInput.files[0]);
+  fileInput.value='';
+});
+
+SLOTS.forEach(function(s,i){
+  s.name=FILES[i]?FILES[i][0]:('slot-'+(i+1));
+  s.isVideo=FILES[i]?FILES[i][1]===1:false;
+  s.ratio=slotRatio(s.host);
+  var tag=document.createElement('span');
+  tag.className='slotname';tag.textContent=s.name;
+  s.host.appendChild(tag);
+  s.host.addEventListener('dragover',function(e){
+    if(!document.body.classList.contains('admin'))return;
+    e.preventDefault();s.host.classList.add('dragover');
+  });
+  s.host.addEventListener('dragleave',function(){s.host.classList.remove('dragover')});
+  s.host.addEventListener('drop',function(e){
+    if(!document.body.classList.contains('admin'))return;
+    e.preventDefault();s.host.classList.remove('dragover');
+    var f=e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f&&/^image\//.test(f.type))openCrop(i,f);
+    else showToast('Drop an image file');
+  });
+});
+document.addEventListener('paste',function(e){
+  if(!document.body.classList.contains('admin')||armed==null)return;
+  var items=e.clipboardData&&e.clipboardData.items;if(!items)return;
+  for(var i=0;i<items.length;i++){
+    if(items[i].type.indexOf('image')===0){
+      openCrop(armed,items[i].getAsFile());e.preventDefault();return;
+    }
+  }
+});
+
+/* ---- crop studio ---- */
+var cropWrap=$('#cropWrap'),cropStage=$('#cropStage'),cropImg=$('#cropImg'),
+    cropZoom=$('#cropZoom'),cropTitle=$('#cropTitle'),cropMeta=$('#cropMeta'),ratioPick=$('#ratioPick');
+var C={slot:null,ratio:4/3,zoom:1,offx:0,offy:0,base:1,iw:0,ih:0,W:0,H:0};
+
+function layoutStage(){
+  /* fit the target shape inside the available box WITHOUT distorting it:
+     scale both width and height down together, never one alone. */
+  var availW=cropStage.parentElement.clientWidth;
+  var availH=Math.round(window.innerHeight*0.46);
+  var W=availW, H=Math.round(W/C.ratio);
+  if(H>availH){H=availH;W=Math.round(H*C.ratio);}
+  if(W>availW){W=availW;H=Math.round(W/C.ratio);}
+  cropStage.style.width=W+'px';
+  cropStage.style.height=H+'px';
+  C.W=W;C.H=H;
+  C.base=Math.max(W/C.iw,H/C.ih);
+  clampAndDraw();
+}
+function clampAndDraw(){
+  var sc=C.base*C.zoom, dw=C.iw*sc, dh=C.ih*sc;
+  var mx=Math.max(0,(dw-C.W)/2), my=Math.max(0,(dh-C.H)/2);
+  C.offx=Math.max(-mx,Math.min(mx,C.offx));
+  C.offy=Math.max(-my,Math.min(my,C.offy));
+  var left=(C.W-dw)/2+C.offx, top=(C.H-dh)/2+C.offy;
+  cropImg.style.width=dw+'px';cropImg.style.height=dh+'px';
+  cropImg.style.transform='translate('+left+'px,'+top+'px)';
+}
+function openCrop(slotIndex,file){
+  var s=SLOTS[slotIndex];
+  if(s.isVideo){useVideoFile(slotIndex,file);return;}
+  C.slot=slotIndex;C.ratio=s.ratio;C.zoom=1;C.offx=0;C.offy=0;
+  var url=URL.createObjectURL(file);
+  var probe=new Image();
+  probe.onload=function(){
+    C.iw=probe.naturalWidth;C.ih=probe.naturalHeight;
+    cropImg.src=url;
+    cropTitle.textContent=s.name+'.jpg';
+    cropMeta.textContent=C.iw+' × '+C.ih+' px  ·  target '+ratioLabel(C.ratio);
+    cropZoom.value=1;
+    markRatio();
+    cropWrap.hidden=false;
+    setTimeout(layoutStage,20);
+  };
+  probe.onerror=function(){showToast('Could not read that image')};
+  probe.src=url;
+}
+function ratioLabel(r){
+  var map={'1.3333':'4:3','1.5000':'3:2','1.7778':'16:9','0.5625':'9:16','1.0000':'1:1'};
+  return map[r.toFixed(4)]||r.toFixed(2)+':1';
+}
+function markRatio(){
+  $$('#ratioPick button').forEach(function(b){
+    b.classList.toggle('on',Math.abs(parseFloat(b.dataset.r)-C.ratio)<0.01);
+  });
+}
+$$('#ratioPick button').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    C.ratio=parseFloat(b.dataset.r);
+    C.offx=0;C.offy=0;C.zoom=1;cropZoom.value=1;
+    markRatio();layoutStage();
+    cropMeta.textContent=C.iw+' \u00d7 '+C.ih+' px  \u00b7  target '+ratioLabel(C.ratio);
+  });
+});
+cropZoom.addEventListener('input',function(){C.zoom=parseFloat(cropZoom.value);clampAndDraw();});
+cropStage.addEventListener('wheel',function(e){
+  e.preventDefault();
+  C.zoom=Math.max(1,Math.min(4,C.zoom*(e.deltaY<0?1.08:0.93)));
+  cropZoom.value=C.zoom;clampAndDraw();
+},{passive:false});
+var drag=null,pinch=null;
+cropStage.addEventListener('pointerdown',function(e){
+  drag={x:e.clientX,y:e.clientY,ox:C.offx,oy:C.offy};
+  cropStage.setPointerCapture(e.pointerId);cropStage.classList.add('grabbing');
+});
+cropStage.addEventListener('pointermove',function(e){
+  if(!drag)return;
+  C.offx=drag.ox+(e.clientX-drag.x);C.offy=drag.oy+(e.clientY-drag.y);clampAndDraw();
+});
+['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+  cropStage.addEventListener(ev,function(){drag=null;cropStage.classList.remove('grabbing')});
+});
+window.addEventListener('resize',function(){if(!cropWrap.hidden)layoutStage()});
+
+function applyCrop(){
+  var s=SLOTS[C.slot];
+  var sc=C.base*C.zoom, dw=C.iw*sc, dh=C.ih*sc;
+  var left=(C.W-dw)/2+C.offx, top=(C.H-dh)/2+C.offy;
+  var sx=(-left)/sc, sy=(-top)/sc, sw=C.W/sc, sh=C.H/sc;
+  var outW=Math.min(1600,Math.max(320,Math.round(sw)));
+  var outH=Math.max(1,Math.round(outW*(C.H/C.W)));
+  var cv=document.createElement('canvas');cv.width=outW;cv.height=outH;
+  var ctx=cv.getContext('2d');
+  ctx.fillStyle='#0b0a10';ctx.fillRect(0,0,outW,outH);
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(cropImg,sx,sy,sw,sh,0,0,outW,outH);
+  cv.toBlob(function(blob){
+    if(!blob){showToast('Crop failed');return;}
+    CROPPED[s.name+'.jpg']=blob;
+    var img=document.createElement('img');
+    img.src=URL.createObjectURL(blob);img.alt='';
+    attachNode(s,img);
+    updateCount();
+    cropWrap.hidden=true;
+    showToast('Cropped — '+Math.round(blob.size/1024)+' KB');
+  },'image/jpeg',0.85);
+}
+function useVideoFile(slotIndex,file){
+  var s=SLOTS[slotIndex];
+  var v=document.createElement('video');
+  v.src=URL.createObjectURL(file);v.controls=true;v.playsInline=true;v.preload='metadata';
+  attachNode(s,v);
+  showToast('Preview only — upload '+s.name+'.mp4 to GitHub for the live site');
+}
+function updateCount(){
+  var n=Object.keys(CROPPED).length;
+  var el=$('#dlCount');if(el)el.textContent=n?(' ('+n+')'):'';
+}
+function downloadAll(){
+  var names=Object.keys(CROPPED);
+  if(!names.length){showToast('Nothing cropped yet');return;}
+  var i=0;
+  (function next(){
+    if(i>=names.length){showToast('Saved '+names.length+' file(s) — upload them to your photos folder');return;}
+    var n=names[i++];
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(CROPPED[n]);a.download=n;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(next,450);
+  })();
+}
+
+
 function mediaHTML(raw){
   var p=raw.trim().replace(/"/g,'');
   if(/youtu\.be\/|youtube\.com/.test(p)){
@@ -1032,6 +1548,12 @@ if(lockModal){
   [lockPass,lockQ].forEach(function(inp){inp.addEventListener('keydown',function(e){if(e.key==='Enter')verify();});});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lockModal.hidden)closeLock();});
   $('#admExport').addEventListener('click',exportSite);
+  $('#admDownload').addEventListener('click',downloadAll);
+  $('#cropSave').addEventListener('click',applyCrop);
+  $('#cropCancel').addEventListener('click',function(){cropWrap.hidden=true});
+  $('#cropReset').addEventListener('click',function(){C.zoom=1;C.offx=0;C.offy=0;cropZoom.value=1;layoutStage();});
+  cropWrap.addEventListener('click',function(e){if(e.target===cropWrap)cropWrap.hidden=true});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!cropWrap.hidden)cropWrap.hidden=true});
   $('#admExit').addEventListener('click',function(){document.body.classList.remove('admin');$('#adminBar').hidden=true;showToast('Admin mode off');});
 }
 
@@ -1123,6 +1645,23 @@ mm.add('(max-width: 860px)',function(){
   gsap.set('.xp-card',{opacity:0,y:40});
   ScrollTrigger.batch('.xp-card',{start:'top 90%',once:true,onEnter:function(els){
     gsap.to(els,{opacity:1,y:0,duration:.8,stagger:.12,ease:'power3.out'});
+  }});
+});
+
+/* ---- CATS: each row pins and slides through its 3 panels ---- */
+mm.add('(min-width: 861px)',function(){
+  $$('.cat-row').forEach(function(row){
+    var track=row.querySelector('.cat-track');
+    var dist=function(){return Math.max(0,track.scrollWidth-window.innerWidth+window.innerWidth*0.06)};
+    gsap.to(track,{x:function(){return -dist()},ease:'none',
+      scrollTrigger:{trigger:row,start:'top top',end:function(){return '+='+(dist()+window.innerHeight*0.35)},
+        scrub:1,pin:true,invalidateOnRefresh:true,anticipatePin:1}});
+  });
+});
+mm.add('(max-width: 860px)',function(){
+  gsap.set('.cpanel',{opacity:0,y:36});
+  ScrollTrigger.batch('.cpanel',{start:'top 90%',once:true,onEnter:function(els){
+    gsap.to(els,{opacity:1,y:0,duration:.8,stagger:.1,ease:'power3.out'});
   }});
 });
 

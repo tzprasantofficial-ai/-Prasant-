@@ -284,6 +284,50 @@ section{position:relative;padding:16vh 6vw}
 .vph.tall{aspect-ratio:9/16;grid-column:span 1}
 .vph video,.vph iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 
+/* ---------- video studio ---------- */
+#vidWrap{position:fixed;inset:0;background:rgba(11,10,16,.94);backdrop-filter:blur(10px);z-index:310;display:flex;align-items:center;justify-content:center;padding:1rem}
+#vidWrap{display:flex;z-index:350}
+#vidWrap[hidden]{display:none!important}
+.vidbox{width:min(760px,100%);max-height:94svh;overflow:auto;background:var(--panel);border:1px solid var(--line);padding:1.6rem}
+.vidbox h3{font-size:1.2rem;margin:.3rem 0 .2rem}
+.vid-meta{font-family:var(--font-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+.vid-stage{position:relative;width:100%;background:#000;overflow:hidden;margin:0 auto;border:1px solid var(--line)}
+.vid-stage video{display:block;width:100%;height:100%;object-fit:cover;transform-origin:center center;transition:transform .05s}
+.vid-ctrl{display:flex;align-items:center;gap:.8rem;margin:.85rem 0}
+.vid-ctrl label{font-family:var(--font-m);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-dim);white-space:nowrap;min-width:62px}
+.vid-ctrl input[type=range]{flex:1;accent-color:var(--cyan)}
+.vid-ctrl .val{font-family:var(--font-m);font-size:.6rem;color:var(--saffron);min-width:36px;text-align:right}
+.vid-btns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.9rem}
+.vid-btns .btn{padding:.75rem 1.3rem}
+.vid-hint{font-family:var(--font-m);font-size:.58rem;letter-spacing:.1em;color:var(--sand-faint);margin-top:.9rem;line-height:1.8}
+.vid-hint b{color:var(--sand-dim)}
+.vratio-pick{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.vratio-pick button{font-family:var(--font-m);font-size:.58rem;letter-spacing:.1em;background:none;border:1px solid var(--line);color:var(--sand-dim);padding:.35rem .7rem;cursor:pointer;transition:background .2s,color .2s}
+.vratio-pick button.on{background:var(--cyan);border-color:var(--cyan);color:var(--ink)}
+
+/* ---------- video studio extras ---------- */
+.vid-url-row{display:flex;gap:.6rem;margin-bottom:.8rem}
+.vid-url-row input{flex:1;background:var(--ink);border:1px solid var(--line);color:var(--sand);font-family:var(--font-b);font-size:.9rem;padding:.7rem .9rem;outline:none}
+.vid-url-row input:focus{border-color:var(--cyan)}
+/* ---------- text editor (admin) ---------- */
+#txtWrap{display:flex}
+#txtWrap[hidden]{display:none!important}
+body.admin [data-editable]{outline:1.5px dashed var(--saffron);outline-offset:3px;cursor:text;min-width:40px;display:inline-block}
+body.admin [data-editable]:focus{outline-color:var(--terra);background:rgba(224,145,58,.08)}
+.edit-badge{position:absolute;top:6px;right:6px;font-family:var(--font-m);font-size:.52rem;letter-spacing:.1em;background:var(--saffron);color:var(--ink);padding:.18rem .45rem;pointer-events:none;z-index:5;display:none}
+body.admin .edit-badge{display:block}
+
+/* ---------- process ---------- */
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3.5rem}
+.proc-card{background:var(--panel);border:1px solid var(--line);padding:2rem 1.8rem;position:relative;transition:transform .35s,border-color .35s}
+.proc-card:hover{transform:translateY(-6px);border-color:var(--cyan)}
+.proc-num{font-family:var(--font-d);font-weight:800;font-size:5rem;color:rgba(244,238,226,.06);line-height:1;position:absolute;top:-.6rem;right:.8rem;user-select:none}
+.proc-card h3{font-size:1.25rem;margin-bottom:.75rem;position:relative}
+.proc-card p{color:var(--sand-dim);font-size:.95rem;position:relative}
+.proc-card em{font-style:normal;color:var(--cyan)}
+@media(max-width:860px){.proc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.proc-grid{grid-template-columns:1fr}}
+
 /* ---------- family & cats (horizontal 3-panel rows) ---------- */
 .cat-rows{margin-top:3.5rem}
 .cat-row{position:relative;height:100svh;overflow:hidden}
@@ -349,7 +393,7 @@ body.admin [data-slot]{cursor:pointer}
 body.admin [data-slot]::after{content:"EDIT";position:absolute;top:8px;right:8px;font-family:var(--font-m);font-size:.58rem;letter-spacing:.14em;background:var(--cyan);color:var(--ink);padding:.2rem .5rem;z-index:6}
 .vph img,.ph-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cat-photo video,.yt-thumb video{width:100%;height:100%;object-fit:cover}
-.reel-frame img,.reel-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reel-frame img,.reel-frame video,.reel-frame iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
 .stack{position:absolute;inset:0;overflow:hidden}
 .stack .fr{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform;transform-origin:center}
 .frdots{position:absolute;bottom:10px;right:12px;display:flex;gap:5px;z-index:4}
@@ -366,7 +410,8 @@ body.admin [data-slot].armed::before{content:"PASTE READY — Ctrl+V";position:a
 .slotname{position:absolute;top:8px;left:8px;font-family:var(--font-m);font-size:.55rem;letter-spacing:.1em;background:rgba(11,10,16,.85);color:var(--sand-dim);padding:.22rem .5rem;z-index:6;display:none}
 body.admin .slotname{display:block}
 #cropWrap{position:fixed;inset:0;background:rgba(11,10,16,.94);backdrop-filter:blur(10px);z-index:310;display:flex;align-items:center;justify-content:center;padding:1rem}
-#cropWrap[hidden]{display:none}
+#cropWrap{display:flex}
+#cropWrap[hidden]{display:none!important}
 .cropbox{width:min(720px,100%);max-height:94svh;overflow:auto;background:var(--panel);border:1px solid var(--line);padding:1.6rem}
 .cropbox h3{font-size:1.2rem;margin:.3rem 0 .2rem}
 .crop-meta{font-family:var(--font-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
@@ -465,7 +510,7 @@ body.admin .slotname{display:block}
       <span class="name-line"><span>PRASANT</span></span>
       <span class="name-line mid"><span>KUMAR</span></span>
       <span class="name-line"><span>THAPA<span class="period">.</span></span></span>
-      <div class="hero-role">CONTENT CREATOR — VIDEO EDITOR — <b>AI-DRIVEN</b></div>
+      <div class="hero-role">CONTENT CREATOR — VIDEO EDITOR — <b>AI-DRIVEN</b> — STORYTELLER</div>
     </h1>
     <div class="scroll-hint">SCROLL<i></i></div>
   </div>
@@ -480,7 +525,7 @@ body.admin .slotname{display:block}
       <div class="vline"></div>
     </div>
     <div class="about-copy">
-      <p data-words>I'm Prasant — raised in Shillong, built in the UAE. My road ran through airport gates with Bangkok Airways, call floors in Dubai and nine-plus years of face-to-face sales, and every stop taught me the same thing: people don't buy products, they buy stories. Today I tell those stories with video, motion graphics and design — directing AI tools like a small production crew to turn any brief into finished, on-brand work.</p>
+      <p data-words>I'm Prasant — raised in Shillong, built in the UAE. My road ran through airport gates with Bangkok Airways, call floors in Dubai and nine-plus years of face-to-face sales, and every stop taught me the same thing: people don't buy products, they buy stories. Today I tell those stories with video, motion graphics and design — directing AI tools like a small production crew to turn any brief into finished, on-brand work. No coding required: I direct AI the way a director runs a shoot, and the results are real.</p>
       <p class="about-sub">Off the clock you'll find me heat-pressing shirts at U-Design, building QR tech for Al Ain's shops, teaching UAE businesses AI through Aakriti — or on final approach in a virtual A320. Fluent in English, Hindi, Nepali and Urdu. Powered by curiosity and cutting-edge AI.</p>
       <div class="quoteline rv" style="border-color:var(--saffron);margin-top:2.2rem;font-size:1.15rem">"Experience can't be created. It can only be lived." — PKT</div>
       <div class="stats">
@@ -499,7 +544,7 @@ body.admin .slotname{display:block}
     <div class="reel-word">SHOWREEL</div>
     <div class="reel-frame">
       <!-- SHOWREEL-SLOT : delete the div below and paste your video / motion-graphics reel here -->
-      <div class="ph-empty play"><span class="ph-num">SHOWREEL — DROP HERO VIDEO HERE</span></div>
+      <div class="ph-empty play"><span class="ph-num">HERO VIDEO — upload videos/herovideo.mp4</span></div>
       <div class="reel-cap"><span>PKT © 2026</span><span>MOTION COMING SOON</span></div>
     </div>
   </div>
@@ -509,6 +554,36 @@ body.admin .slotname{display:block}
   <span>Edit</span><span class="alt">Design</span><span class="sf">✦</span><span>Print</span><span class="alt">Fly</span><span class="sf">✦</span><span>Repeat</span><span class="alt">Al Ain to the world</span><span class="sf">✦</span>
   <span>Edit</span><span class="alt">Design</span><span class="sf">✦</span><span>Print</span><span class="alt">Fly</span><span class="sf">✦</span><span>Repeat</span><span class="alt">Al Ain to the world</span><span class="sf">✦</span>
 </div></div>
+
+
+<!-- ══════════ PROCESS — how I work ══════════ -->
+<section id="process">
+  <div class="chap">02½ — HOW I WORK</div>
+  <h2 class="sec-title">The <span class="ol">Process</span></h2>
+  <p class="sec-sub">Four steps, every project, no exceptions.</p>
+  <div class="proc-grid">
+    <article class="proc-card rv">
+      <div class="proc-num">01</div>
+      <h3>Brief</h3>
+      <p>Understand what the piece needs to <em>do</em> before touching a single tool. Goals first, execution second — always.</p>
+    </article>
+    <article class="proc-card rv">
+      <div class="proc-num">02</div>
+      <h3>Ideate with AI</h3>
+      <p>Claude, ChatGPT and Gemini for concepts, scripts and structure. Fast first drafts, real creative direction — no coding required.</p>
+    </article>
+    <article class="proc-card rv">
+      <div class="proc-num">03</div>
+      <h3>Shoot &amp; Edit</h3>
+      <p>Premiere Pro and After Effects turn the raw material into finished, on-brand content. Motion graphics where the brief calls for them.</p>
+    </article>
+    <article class="proc-card rv">
+      <div class="proc-num">04</div>
+      <h3>Deliver</h3>
+      <p>Reliable turnaround, brief-to-delivery, every time. The client never has to chase.</p>
+    </article>
+  </div>
+</section>
 
 <!-- ══════════ 03 · EDUCATION ══════════ -->
 <section id="education">
@@ -770,16 +845,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-01">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-01">—</dd></div>
-              <div><dt>How we met</dt><dd>Rescued from a neighbour's house — I was certain she'd wandered in by mistake</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-01">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-01">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Rescued from a neighbour's house — I was certain she'd wandered in by mistake</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 01B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>The night before her surgery I researched every possible outcome until sunrise. She woke up fine, stretched, and demanded food like nothing had happened.</p>
+              <p data-editable>The night before her surgery I researched every possible outcome until sunrise. She woke up fine, stretched, and demanded food like nothing had happened.</p>
             </div>
           </article>
         </div>
@@ -798,16 +873,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-02">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-02">—</dd></div>
-              <div><dt>How we met</dt><dd>Took her in off the street during the rains, pregnant</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-02">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-02">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Took her in off the street during the rains, pregnant</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 02B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>Four daughters, four royal names — Rani, Princess, Angel and Queen. I ran out of ideas by the second one and just kept going up the hierarchy.</p>
+              <p data-editable>Four daughters, four royal names — Rani, Princess, Angel and Queen. I ran out of ideas by the second one and just kept going up the hierarchy.</p>
             </div>
           </article>
         </div>
@@ -826,16 +901,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-03">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-03">—</dd></div>
-              <div><dt>How we met</dt><dd>She left, then returned carrying four more</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-03">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-03">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>She left, then returned carrying four more</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 03B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>Nine cats in one small studio taught me to walk like a dancer. Two to three minutes just to reach my kitchen — and a full eight minutes to get out the front door, because nobody would let go of my legs.</p>
+              <p data-editable>Nine cats in one small studio taught me to walk like a dancer. Two to three minutes just to reach my kitchen — and a full eight minutes to get out the front door, because nobody would let go of my legs.</p>
             </div>
           </article>
         </div>
@@ -854,16 +929,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-04">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-04">—</dd></div>
-              <div><dt>How we met</dt><dd>Abandoned at my workplace parking lot, injured</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-04">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-04">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Abandoned at my workplace parking lot, injured</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 04B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>I told myself I was only feeding her until somebody adopted her. That lasted about three days.</p>
+              <p data-editable>I told myself I was only feeding her until somebody adopted her. That lasted about three days.</p>
             </div>
           </article>
         </div>
@@ -882,16 +957,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-05">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-05">—</dd></div>
-              <div><dt>How we met</dt><dd>Same parking lot as Lala, a few months later</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-05">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-05">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Same parking lot as Lala, a few months later</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 05B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>At this point my colleagues stopped asking whether I'd take her, and started asking what I was going to name her.</p>
+              <p data-editable>At this point my colleagues stopped asking whether I'd take her, and started asking what I was going to name her.</p>
             </div>
           </article>
         </div>
@@ -910,16 +985,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-06">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-06">—</dd></div>
-              <div><dt>How we met</dt><dd>Adopted off my own window ledge after he disappeared for a week</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-06">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-06">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Adopted off my own window ledge after he disappeared for a week</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 06B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>He'd sit on the ledge for hours, on the exact spot where my indoor cats nap on the other side of the glass — two lives, one pane apart, and he never knew. I couldn't unsee it. So I opened the window.</p>
+              <p data-editable>He'd sit on the ledge for hours, on the exact spot where my indoor cats nap on the other side of the glass — two lives, one pane apart, and he never knew. I couldn't unsee it. So I opened the window.</p>
             </div>
           </article>
         </div>
@@ -938,16 +1013,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-07">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-07">—</dd></div>
-              <div><dt>How we met</dt><dd>Found by my flower pot with a broken leg and no use of her lower body</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-07">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-07">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Found by my flower pot with a broken leg and no use of her lower body</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 07B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>A little house in my washroom, cleaning her every day, walking practice, medicine, play. Three months to survive. A year later she runs faster than cats who never broke anything.</p>
+              <p data-editable>A little house in my washroom, cleaning her every day, walking practice, medicine, play. Three months to survive. A year later she runs faster than cats who never broke anything.</p>
             </div>
           </article>
         </div>
@@ -966,16 +1041,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-08">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-08">—</dd></div>
-              <div><dt>How we met</dt><dd>Abandoned outside my building with their mother</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-08">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-08">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>Abandoned outside my building with their mother</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 08B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>One of them has a face that looks so much like a person I know that the name just happened. I still can't look at her without smiling.</p>
+              <p data-editable>One of them has a face that looks so much like a person I know that the name just happened. I still can't look at her without smiling.</p>
             </div>
           </article>
         </div>
@@ -994,16 +1069,16 @@ body.admin .slotname{display:block}
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09</span></div></div>
             <dl class="cfacts">
-              <div><dt>Breed</dt><dd data-fill="breed-09">—</dd></div>
-              <div><dt>Joined the family</dt><dd data-fill="year-09">—</dd></div>
-              <div><dt>How we met</dt><dd>The only survivor of her litter — with me two months</dd></div>
+              <div><dt>Breed</dt><dd data-editable data-fill="breed-09">—</dd></div>
+              <div><dt>Joined the family</dt><dd data-editable data-fill="year-09">—</dd></div>
+              <div><dt>How we met</dt><dd data-editable>The only survivor of her litter — with me two months</dd></div>
             </dl>
           </article>
           <article class="cpanel cpanel-media">
             <div class="cphoto"><div class="ph-empty"><span class="ph-num">CAT PHOTO 09B</span></div></div>
             <div class="cmoment">
               <span class="mono">The moment I remember</span>
-              <p>Number fourteen. Every single one arrived by accident, and not one of them was a mistake.</p>
+              <p data-editable>Number fourteen. Every single one arrived by accident, and not one of them was a mistake.</p>
             </div>
           </article>
         </div>
@@ -1100,7 +1175,7 @@ body.admin .slotname{display:block}
     <a class="btn solid" href="mailto:Tz.Prasant.Official@gmail.com">Email me</a>
     <a class="btn" href="tel:+971544303956">+971 54 430 3956</a>
     <!-- PASTE-LINK : replace # with https://wa.me/971544303956 or your WhatsApp link -->
-    <a class="btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn" href="https://wa.me/971544303956" target="_blank" rel="noopener">WhatsApp</a>
   </div>
   <div class="socials rv">
     <!-- PASTE-LINK : replace each # with your real profile URLs -->
@@ -1138,6 +1213,77 @@ body.admin .slotname{display:block}
     <button class="btn solid" id="admDownload">Save photos<span id="dlCount"></span></button>
     <button class="btn" id="admExport">Export site</button>
     <button class="btn" id="admExit">Exit</button>
+  </div>
+</div>
+
+<div id="vidWrap" hidden>
+  <div class="vidbox">
+    <div class="mono" style="color:var(--cyan)">VIDEO STUDIO</div>
+    <h3 id="vidTitle">Video Slot</h3>
+    <div class="vid-url-row">
+      <input id="vidUrl" type="url" placeholder="Paste YouTube URL — e.g. https://www.youtube.com/watch?v=ABC123" autocomplete="off">
+      <button class="btn solid" id="vidLoad" style="white-space:nowrap">Load ↵</button>
+    </div>
+    <div class="vid-meta" id="vidMeta">Paste a YouTube URL above and press Load, then adjust below</div>
+    <div class="vratio-pick" id="vRatioPick">
+      <button data-r="1.7778" data-n="16:9" class="on">16:9</button>
+      <button data-r="0.5625" data-n="9:16">9:16</button>
+      <button data-r="1.3333" data-n="4:3">4:3</button>
+      <button data-r="1.0000" data-n="1:1">1:1</button>
+      <button data-r="2.3750" data-n="19:8">19:8</button>
+      <button data-r="0.4211" data-n="8:19">8:19</button>
+    </div>
+    <div class="vid-stage" id="vidStage">
+      <div id="vidInner" style="position:absolute;inset:0;overflow:hidden">
+      <!-- transparent overlay blocks iframe from stealing pointer events -->
+      <div id="vidBlocker" style="position:absolute;inset:0;z-index:2;display:none"></div>
+        <iframe id="vidFrame" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen
+          style="position:absolute;inset:0;width:100%;height:100%;transform-origin:center center;border:0;display:none"></iframe>
+        <video id="vidPreview" playsinline preload="metadata" controls
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:center center;display:none"></video>
+        <div id="vidPlaceholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(244,238,226,.28)">
+          <div style="font-size:2.4rem;line-height:1">▶</div>
+          <div style="font-family:var(--font-m);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase">PASTE URL &amp; PRESS LOAD</div>
+        </div>
+      </div>
+    </div>
+    <div class="vid-ctrl">
+      <label for="vidZoom">Zoom</label>
+      <input type="range" id="vidZoom" min="1" max="3" step="0.01" value="1">
+      <span class="val" id="vidZoomVal">1.00×</span>
+    </div>
+    <div class="vid-ctrl">
+      <label for="vidX">◄ ►</label>
+      <input type="range" id="vidX" min="-40" max="40" step="0.5" value="0">
+      <span class="val" id="vidXVal">0%</span>
+    </div>
+    <div class="vid-ctrl">
+      <label for="vidY">▲ ▼</label>
+      <input type="range" id="vidY" min="-40" max="40" step="0.5" value="0">
+      <span class="val" id="vidYVal">0%</span>
+    </div>
+    <div class="vid-btns">
+      <button class="btn solid" id="vidSave">Apply to slot</button>
+      <button class="btn" id="vidReset">Reset adjustments</button>
+      <button class="btn" id="vidCancel">Cancel</button>
+    </div>
+    <div class="vid-hint">
+      <b>Tip:</b> ratio buttons change the frame shape — the slot on your page resizes to match. Zoom pulls the video in so edges are hidden. ◄ ► and ▲ ▼ shift what part of the video is visible.<br>
+      Press <b>Apply to slot</b> then <b>Export site</b> to save permanently.
+    </div>
+  </div>
+</div>
+
+<div id="txtWrap" hidden style="position:fixed;inset:0;background:rgba(11,10,16,.88);backdrop-filter:blur(8px);z-index:320;align-items:center;justify-content:center;padding:1rem">
+  <div style="width:min(560px,100%);background:var(--panel);border:1px solid var(--line);padding:1.6rem">
+    <div class="mono" style="color:var(--saffron);margin-bottom:.4rem">TEXT EDITOR</div>
+    <div id="txtLabel" style="font-family:var(--font-m);font-size:.62rem;letter-spacing:.12em;color:var(--sand-dim);margin-bottom:.9rem">editing</div>
+    <textarea id="txtArea" rows="5" style="width:100%;background:var(--ink);border:1px solid var(--line);color:var(--sand);font-family:var(--font-b);font-size:.98rem;padding:.8rem;outline:none;resize:vertical;line-height:1.55"></textarea>
+    <div style="display:flex;gap:.7rem;margin-top:.9rem">
+      <button class="btn solid" id="txtSave">Save (Ctrl+Enter)</button>
+      <button class="btn" id="txtCancel">Cancel</button>
+    </div>
+    <div style="font-family:var(--font-m);font-size:.56rem;letter-spacing:.1em;color:var(--sand-faint);margin-top:.8rem">Tap any <span style="color:var(--saffron)">highlighted</span> text in admin mode to edit it · Press Export to save permanently</div>
   </div>
 </div>
 
@@ -1214,8 +1360,9 @@ $$('.ph-empty').forEach(function(el,i){
     if(!document.body.classList.contains('admin'))return;
     e.preventDefault();e.stopPropagation();
     $$('[data-slot]').forEach(function(n){n.classList.remove('armed')});
-    host.classList.add('armed');armed=i;
-    pendingSlot=i;fileInput.click();
+    host.classList.add('armed');armed=i;pendingSlot=i;
+    fileInput.accept=SLOTS[i].isVideo?'video/*':'image/*';
+    fileInput.click();
   });
 });
 /* ════════ AUTO-LOAD MEDIA BY FILENAME ════════
@@ -1223,8 +1370,11 @@ $$('.ph-empty').forEach(function(el,i){
    they appear here automatically. Missing files just stay as placeholders.
    Cat cards accept up to 3 frames: cat-01-coco.jpg, cat-01-coco-2.jpg,
    cat-01-coco-3.jpg — they cross-fade as you scroll. */
+var YT_URLS={
+  /* YouTube URLs go here if needed — currently all videos use local files */
+};
 var FILES=[
-  ['showreel',1],
+  ['herovideo',1],  /* upload videos/herovideo.mp4 (25MB compressed) */
   ['yt-tz-gaming',0],['yt-bakchod-reacts',0],
   ['cat-01-coco',0],['cat-01-coco-2',0],
   ['cat-02-mommy',0],['cat-02-mommy-2',0],
@@ -1259,13 +1409,44 @@ function resolveImage(base,cb){
 }
 function autoLoad(s,base,isVideo){
   if(isVideo){
+    /* YouTube-first: if we have a pre-set URL, use it directly */
+    if(YT_URLS[base]){
+      /* Thumbnail + click approach — no iframe, no error 153, works everywhere */
+      if(base==='video-04'){s.host.style.aspectRatio='9/16';}
+      var vid_id=YT_URLS[base].split('/embed/')[1].split('?')[0];
+      var yt_url='https://youtu.be/'+vid_id;
+      var wrap=document.createElement('div');
+      wrap.style.cssText='position:absolute;inset:0;overflow:hidden;background:#000;cursor:pointer';
+      /* thumbnail — try maxres first, fall back to hqdefault */
+      var thumb=document.createElement('img');
+      thumb.alt='';thumb.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82;transition:opacity .3s';
+      thumb.onerror=function(){thumb.src='https://img.youtube.com/vi/'+vid_id+'/hqdefault.jpg';};
+      thumb.src='https://img.youtube.com/vi/'+vid_id+'/maxresdefault.jpg';
+      /* play button */
+      var btn=document.createElement('div');
+      btn.innerHTML='&#9654;';
+      btn.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(220,0,0,.92);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.7rem;padding-left:5px;transition:transform .2s,background .2s';
+      /* label */
+      var lbl=document.createElement('div');
+      lbl.textContent='Watch on YouTube';
+      lbl.style.cssText='position:absolute;bottom:10px;right:12px;font-family:var(--font-m);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)';
+      wrap.appendChild(thumb);wrap.appendChild(btn);wrap.appendChild(lbl);
+      wrap.addEventListener('mouseenter',function(){thumb.style.opacity='.95';btn.style.transform='translate(-50%,-50%) scale(1.1)';btn.style.background='rgba(220,0,0,1)';});
+      wrap.addEventListener('mouseleave',function(){thumb.style.opacity='.82';btn.style.transform='translate(-50%,-50%) scale(1)';btn.style.background='rgba(220,0,0,.92)';});
+      wrap.addEventListener('click',function(){window.open(yt_url,'_blank','noopener');});
+      attachNode(s,wrap);return;
+    }
+    /* fallback: look for a local file */
+    if(base==='video-04'){s.host.style.aspectRatio='9/16';}
     var exts=['mp4','webm'],i=0;
     (function next(){
       if(i>=exts.length)return;
       var url='videos/'+base+'.'+exts[i++];
       var v=document.createElement('video');
       v.preload='metadata';v.playsInline=true;v.setAttribute('playsinline','');
-      v.onloadedmetadata=function(){v.controls=true;attachNode(s,v)};
+      v.controls=true;
+      v.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';
+      v.onloadedmetadata=function(){attachNode(s,v)};
       v.onerror=next;v.src=url;
     })();
     return;
@@ -1278,6 +1459,133 @@ function autoLoad(s,base,isVideo){
   });
 }
 SLOTS.forEach(function(s,i){if(FILES[i])autoLoad(s,FILES[i][0],FILES[i][1]===1)});
+
+
+/* ════════ VIDEO STUDIO ════════ */
+var vidWrap=$('#vidWrap'),vidStage=$('#vidStage'),vidInner=$('#vidInner'),
+    vidFrame=$('#vidFrame'),vidPrev=$('#vidPreview'),vidPH=$('#vidPlaceholder'),
+    vidZoom=$('#vidZoom'),vidZoomVal=$('#vidZoomVal'),
+    vidX=$('#vidX'),vidXVal=$('#vidXVal'),vidY=$('#vidY'),vidYVal=$('#vidYVal'),
+    vidTitle=$('#vidTitle'),vidMeta=$('#vidMeta'),vidUrlInput=$('#vidUrl');
+var VC={slot:null,ratio:16/9,zoom:1,offx:0,offy:0,mode:'none',embedUrl:''};
+function ytEmbed(url){
+  var m=url.match(/[?&]v=([\w-]{6,})/)||url.match(/youtu\.be\/([\w-]{6,})/)||
+         url.match(/embed\/([\w-]{6,})/)||url.match(/shorts\/([\w-]{6,})/);
+  return m?'https://www.youtube.com/embed/'+m[1]+'?rel=0&autoplay=0':null;
+}
+function applyVidLayout(){
+  var availW=vidStage.parentElement.clientWidth;
+  var availH=Math.round(window.innerHeight*0.52);
+  var W=availW,H=Math.round(W/VC.ratio);
+  if(H>availH){H=availH;W=Math.round(H*VC.ratio);}
+  if(W>availW){W=availW;H=Math.round(W/VC.ratio);}
+  vidStage.style.width=W+'px';vidStage.style.height=H+'px';
+  applyVidTransform();
+}
+function applyVidTransform(){
+  var t='scale('+VC.zoom+') translate('+VC.offx+'%,'+VC.offy+'%)';
+  if(VC.mode==='youtube')vidFrame.style.transform=t;
+  else if(VC.mode==='file')vidPrev.style.transform=t;
+}
+function loadYouTube(url){
+  var embed=ytEmbed(url);
+  if(!embed){showToast('Not a valid YouTube URL');return;}
+  VC.mode='youtube';VC.embedUrl=embed;
+  vidFrame.src=embed;vidFrame.style.display='block';
+  vidPrev.style.display='none';vidPH.style.display='none';
+  /* show blocker so iframe doesn't eat mouse events on controls */
+  var vb=$('#vidBlocker');if(vb)vb.style.display='block';
+  vidMeta.textContent='YouTube preview loaded — adjust ratio, zoom and position below';
+  applyVidTransform();
+}
+function openVidStudio(slotIndex,file){
+  VC.slot=slotIndex;VC.ratio=16/9;VC.zoom=1;VC.offx=0;VC.offy=0;
+  if(file&&file.type&&file.type.indexOf('video/')===0){
+    VC.mode='file';VC.embedUrl='';
+    vidPrev.src=URL.createObjectURL(file);
+    vidPrev.style.display='block';vidFrame.style.display='none';vidPH.style.display='none';
+    vidMeta.textContent='Local preview — adjust ratio, zoom and position';
+  }else{
+    VC.mode='none';VC.embedUrl='';
+    vidPrev.style.display='none';vidFrame.style.display='none';
+    vidPH.style.display='flex';
+    vidMeta.textContent='Paste a YouTube URL above and press Load';
+  }
+  vidTitle.textContent=SLOTS[slotIndex].name;
+  vidZoom.value=1;vidX.value=0;vidY.value=0;
+  vidZoomVal.textContent='1.00x';vidXVal.textContent='0%';vidYVal.textContent='0%';
+  if(vidUrlInput)vidUrlInput.value='';
+  var vb2=$('#vidBlocker');if(vb2)vb2.style.display='none';
+  markVRatio();vidWrap.hidden=false;setTimeout(applyVidLayout,20);
+}
+function markVRatio(){
+  $$('#vRatioPick button').forEach(function(b){
+    b.classList.toggle('on',Math.abs(parseFloat(b.dataset.r)-VC.ratio)<0.01);
+  });
+}
+function resetVid(){
+  VC.zoom=1;VC.offx=0;VC.offy=0;
+  vidZoom.value=1;vidX.value=0;vidY.value=0;
+  vidZoomVal.textContent='1.00x';vidXVal.textContent='0%';vidYVal.textContent='0%';
+  applyVidTransform();
+}
+$$('#vRatioPick button').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    VC.ratio=parseFloat(b.dataset.r);
+    VC.zoom=1;VC.offx=0;VC.offy=0;
+    vidZoom.value=1;vidX.value=0;vidY.value=0;
+    vidZoomVal.textContent='1.00x';vidXVal.textContent='0%';vidYVal.textContent='0%';
+    markVRatio();applyVidLayout();
+    vidMeta.textContent='Frame: '+b.dataset.n+' — slot resizes to match';
+  });
+});
+vidZoom.addEventListener('input',function(){
+  VC.zoom=parseFloat(vidZoom.value);
+  vidZoomVal.textContent=VC.zoom.toFixed(2)+'x';applyVidTransform();
+});
+vidX.addEventListener('input',function(){
+  VC.offx=parseFloat(vidX.value);
+  vidXVal.textContent=(VC.offx>0?'+':'')+VC.offx.toFixed(0)+'%';applyVidTransform();
+});
+vidY.addEventListener('input',function(){
+  VC.offy=parseFloat(vidY.value);
+  vidYVal.textContent=(VC.offy>0?'+':'')+VC.offy.toFixed(0)+'%';applyVidTransform();
+});
+if($('#vidLoad')){
+  $('#vidLoad').addEventListener('click',function(){
+    var url=vidUrlInput?vidUrlInput.value.trim():'';
+    if(url)loadYouTube(url);else showToast('Paste a YouTube URL first');
+  });
+  if(vidUrlInput)vidUrlInput.addEventListener('keydown',function(e){
+    if(e.key==='Enter')$('#vidLoad').click();
+  });
+}
+function applyVidToSlot(){
+  var s=SLOTS[VC.slot];
+  if(VC.mode==='none'){showToast('Load a YouTube video or file first');return;}
+  var t='scale('+VC.zoom+') translate('+VC.offx+'%,'+VC.offy+'%)';
+  var outer=document.createElement('div');
+  outer.style.cssText='position:absolute;inset:0;overflow:hidden;background:#000';
+  var inner;
+  if(VC.mode==='youtube'){
+    inner=document.createElement('iframe');
+    inner.src=VC.embedUrl;inner.setAttribute('frameborder','0');
+    inner.setAttribute('allow','autoplay;encrypted-media');
+    inner.setAttribute('allowfullscreen','');
+    inner.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;transform-origin:center center;transform:'+t;
+  }else{
+    inner=document.createElement('video');
+    inner.src=vidPrev.src;inner.controls=true;inner.playsInline=true;inner.preload='metadata';
+    inner.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:center center;transform:'+t;
+  }
+  outer.appendChild(inner);
+  var host=s.host;
+  host.style.aspectRatio=String(Math.round(VC.ratio*10000)/10000);
+  attachNode(s,outer);updateCount();vidWrap.hidden=true;
+  showToast('Applied — press Export to save permanently');
+}
+function useVideoFile(slotIndex,file){openVidStudio(slotIndex,file);}
 
 /* ════════ MEDIA STUDIO — drag & drop, paste, crop, mobile gallery ════════ */
 var RATIOS={'r43':4/3,'r32':3/2,'r169':16/9,'r916':9/16,'r11':1};
@@ -1297,7 +1605,14 @@ fileInput.type='file';fileInput.accept='image/*';fileInput.style.display='none';
 document.body.appendChild(fileInput);
 var pendingSlot=null;
 fileInput.addEventListener('change',function(){
-  if(fileInput.files&&fileInput.files[0]&&pendingSlot!=null)openCrop(pendingSlot,fileInput.files[0]);
+  var f=fileInput.files&&fileInput.files[0];
+  if(f&&pendingSlot!=null){
+    if(f.type.indexOf('video/')===0||SLOTS[pendingSlot].isVideo){
+      openVidStudio(pendingSlot,f);
+    }else{
+      openCrop(pendingSlot,f);
+    }
+  }
   fileInput.value='';
 });
 
@@ -1533,7 +1848,7 @@ function verify(){
   Promise.all([sha256hex(p),sha256hex(q)]).then(function(r){
     var ok=r[0]&&r[1]?(r[0]===PASS_H&&r[1]===ANS_H):(fnv(p)===PASS_F&&fnv(q)===ANS_F);
     if(ok){
-      closeLock();document.body.classList.add('admin');$('#adminBar').hidden=false;fails=0;
+      closeLock();document.body.classList.add('admin');$('#adminBar').hidden=false;fails=0;activateTextEditors(true);
       showToast('Welcome aboard, Captain \u2708');
     }else{
       fails++;lockMsg.textContent='ACCESS DENIED';
@@ -1553,8 +1868,69 @@ if(lockModal){
   $('#cropCancel').addEventListener('click',function(){cropWrap.hidden=true});
   $('#cropReset').addEventListener('click',function(){C.zoom=1;C.offx=0;C.offy=0;cropZoom.value=1;layoutStage();});
   cropWrap.addEventListener('click',function(e){if(e.target===cropWrap)cropWrap.hidden=true});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!cropWrap.hidden)cropWrap.hidden=true});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      if(!cropWrap.hidden)cropWrap.hidden=true;
+      if(vidWrap&&!vidWrap.hidden)vidWrap.hidden=true;
+      if(txtWrap&&!txtWrap.hidden)closeTxtEditor();
+    }
+  });
   $('#admExit').addEventListener('click',function(){document.body.classList.remove('admin');$('#adminBar').hidden=true;showToast('Admin mode off');});
+}
+
+
+/* ════════ TEXT EDITOR (admin) ════════ */
+var TEXT_EDITS={};
+var txtWrap=$('#txtWrap'),txtArea=$('#txtArea'),txtLabel=$('#txtLabel');
+var curTxtEl=null;
+function openTxtEditor(el){
+  curTxtEl=el;
+  var label=el.getAttribute('data-fill')||el.getAttribute('data-editable')||'text';
+  txtLabel.textContent='Editing: '+label;
+  txtArea.value=el.innerText.trim();
+  txtWrap.hidden=false;
+  setTimeout(function(){txtArea.focus();txtArea.select();},30);
+}
+function saveTxtEdit(){
+  if(!curTxtEl)return;
+  var key=curTxtEl.getAttribute('data-fill')||curTxtEl.getAttribute('data-editable')||null;
+  curTxtEl.textContent=txtArea.value;
+  if(key)TEXT_EDITS[key]=txtArea.value;
+  closeTxtEditor();
+  showToast('Text updated — press Export to save');
+}
+function closeTxtEditor(){txtWrap.hidden=true;curTxtEl=null;}
+if(txtWrap){
+  $('#txtSave').addEventListener('click',saveTxtEdit);
+  $('#txtCancel').addEventListener('click',closeTxtEditor);
+  txtArea.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.key==='Enter')saveTxtEdit();
+  });
+  txtWrap.addEventListener('click',function(e){if(e.target===txtWrap)closeTxtEditor();});
+}
+/* activate editable elements when admin mode is on */
+function activateTextEditors(on){
+  $$('[data-editable]').forEach(function(el){
+    if(on){
+      el.style.cursor='pointer';
+      el.addEventListener('click',txtClickHandler);
+    }else{
+      el.style.cursor='';
+      el.removeEventListener('click',txtClickHandler);
+    }
+  });
+}
+function txtClickHandler(e){
+  if(!document.body.classList.contains('admin'))return;
+  e.preventDefault();e.stopPropagation();
+  openTxtEditor(this);
+}
+/* override admin on/off to also toggle text editors */
+var _origAdmExit=$('#admExit');
+if(_origAdmExit){
+  _origAdmExit.addEventListener('click',function(){
+    activateTextEditors(false);
+  });
 }
 
 var pre=$('#preloader');
